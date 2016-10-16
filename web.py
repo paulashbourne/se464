@@ -17,7 +17,7 @@ def student_resume(student_id):
         'name': 'Jeff Gulbronson',
         'education': [
             {
-                'degree': 'Bachelor of Software Engineering',
+                'degree': 'Bachelor of Software Engineering fdsdfslkjf',
                 'school': 'University of Waterloo'
             }
         ],
@@ -49,3 +49,8 @@ def student_resume(student_id):
     }
 
     return render_template('student_resume.html', student_info=student_info)
+
+
+@web.get('/employer/new_job')
+def new_job_posting():
+    return render_template('new_job_posting.html')
