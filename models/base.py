@@ -1,3 +1,4 @@
 from mongoengine import Document
 
-class BaseDocument(Document): pass
+class BaseDocument(Document):
+    meta = {'allow_inheritance': True}

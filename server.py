@@ -35,7 +35,7 @@ def get_employer(employer_id):
     employer = Employer.find_by({ 'id' : employer_id })
     if employer is None:
         # TODO: throw error here
-    
+        pass
     return ujson.dumps(employer)
 
 if __name__ == "__main__":
