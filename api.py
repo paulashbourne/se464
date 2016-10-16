@@ -1,4 +1,4 @@
-from app import Blueprint
+from core import Blueprint
 from flask import request
 from models import Employer
 import ujson

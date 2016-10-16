@@ -1,4 +1,4 @@
-from app import App
+from core import App
 from models.employer import Employer
 from pymongo import MongoClient
 import ujson
