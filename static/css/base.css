@@ -34,3 +34,17 @@
 #header {
   margin-bottom: 50px;
 }
+
+.resume-form {
+  text-align: center;
+  border: 1px solid #CAC9CA;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-bottom: 20px;
+}
+
+.resume-question {
+  font-family: 'Lato', sans-serif;
+  font-size: 24px;
+  color: #4A90E2;
+}

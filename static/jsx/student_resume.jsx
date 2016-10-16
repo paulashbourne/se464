@@ -1,3 +1,31 @@
+var ResumeForm = React.createClass({
+  getInitialState: function() {
+    return {
+      fields: [
+        { name: 'title', question: 'What\'s your job title?' }
+      ],
+      currentField: 0
+    };
+  },
+  render: function() {
+    return (
+      <div className="row">
+        <div className="col-md-offset-2 col-md-8">
+          <div className="resume-form">
+            <div className="resume-question">
+              { this.state.fields[this.state.currentField].question }
+            </div>
+            <input className="resume-form-input"/>
+            <button type="button">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
 var Experience = React.createClass({
   render: function() {
     var past_experience = this.props.experience.map(function(exp, i) {
@@ -57,6 +85,7 @@ var StudentResume = React.createClass({
   render: function() {
     return (
       <div className="container">
+        <ResumeForm />
         <Experience experience={this.props.student_info.experience} />
         <Education education={this.props.student_info.education} />
       </div>
