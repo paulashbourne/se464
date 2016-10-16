@@ -1,5 +1,6 @@
 from core import Blueprint
 from flask import request
+from models.application import Application
 from models.employer import Employer
 from models.job import Job
 import ujson
@@ -52,4 +53,9 @@ def get_jobs():
         pass
 
     return ujson.dumps(jobs)
+
+@api.post('/apply/<student_id>/<job_id>')
+def apply(student_id, job_id):
+    application = Application(student_id=student_id, job_id=job_id)
+    application.save()
 
