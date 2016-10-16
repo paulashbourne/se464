@@ -5,10 +5,34 @@ var Experience = React.createClass({
 
   render: function render() {
     var past_experience = this.props.experience.map(function (exp, i) {
+      var points = exp.description.map(function (p, i) {
+        return React.createElement(
+          "li",
+          { key: i },
+          p
+        );
+      });
+
       return React.createElement(
         "div",
         { key: i },
-        exp.title
+        React.createElement(
+          "div",
+          { className: "primary-header" },
+          exp.title
+        ),
+        React.createElement(
+          "div",
+          { className: "secondary-header" },
+          exp.company,
+          " - ",
+          exp.location
+        ),
+        React.createElement(
+          "ul",
+          { className: "experience-description" },
+          points
+        )
       );
     });
 

@@ -5,3 +5,24 @@
   font-family: 'Lato', sans-serif;
   font-size: 24px;
 }
+
+.primary-header {
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
+}
+
+.secondary-header {
+  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  color: #4A4A4A;
+}
+
+.experience-description {
+  color: #9B9B9B;
+  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+}
