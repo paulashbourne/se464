@@ -8,3 +8,4 @@ Werkzeug==0.11.11
 wheel==0.24.0
 git+git://github.com/ContextLogic/mongoengine
 ujson==1.35
+tornado==4.4.2
