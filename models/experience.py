@@ -9,4 +9,4 @@ class Experience(BaseDocument):
     start_time = f.DateTimeField()
     end_time   = f.DateTimeField()
 
-    description = f.ListField(me.StringField())
+    description = f.ListField(f.StringField())
