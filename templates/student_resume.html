@@ -1,0 +1,14 @@
+{% extends "base_page.html" %}
+
+{% block title %}
+  Resume
+{% endblock %}
+
+{% block content %}
+<div id="react-placeholder">
+
+<script>
+window.pageData.studentInfo = {{ student_info|tojson|safe }};
+</script>
+<script src="/static/js/hello.js"></script>
+{% endblock %}
