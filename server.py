@@ -16,7 +16,14 @@ def hello_world():
 @app.route('/student/<student_id>/resume')
 def student_resume(student_id):
     student_info = {
-        'name': 'Jeff Gulbronson'
+        'name': 'Jeff Gulbronson',
+        'experience': [
+            {
+                'title': 'Applications Developer Intern',
+                'company': 'Pagerduty',
+                'location': 'Toronto'
+            }
+        ]
     }
 
     return render_template('student_resume.html', student_info=student_info)
