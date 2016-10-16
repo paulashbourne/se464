@@ -13,7 +13,7 @@ print db
 def hello_world():
     return render_template('hello.html')
 
-@app.route('/student/<student_id>/resume')
+@app.get('/student/<student_id>/resume')
 def student_resume(student_id):
     student_info = {
         'name': 'Jeff Gulbronson',
