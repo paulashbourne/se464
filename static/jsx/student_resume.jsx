@@ -10,7 +10,7 @@ var Experience = React.createClass({
       });
 
       return (
-          <div key={i}>
+          <div className="resume-block" key={i}>
             <div className="primary-header">{exp.title}</div>
             <div className="secondary-header">{exp.company} - {exp.location}</div>
             <ul className="experience-description">
@@ -33,10 +33,20 @@ var Experience = React.createClass({
 
 var Education = React.createClass({
   render: function() {
+    var education = this.props.education.map(function(ed, i) {
+      return (
+        <div key={i}>
+          <div className="primary-header">{ed.degree}</div>
+          <div className="secondary-header">{ed.school}</div>
+        </div>
+      )
+    });
+
     return (
       <div className="row">
         <div className="col-md-offset-2 col-md-8">
           <div className="title">Education</div>
+          { education }
         </div>
       </div>
     );
@@ -48,7 +58,7 @@ var StudentResume = React.createClass({
     return (
       <div className="container">
         <Experience experience={this.props.student_info.experience} />
-        <Education />
+        <Education education={this.props.student_info.education} />
       </div>
     );
   }

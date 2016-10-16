@@ -19,6 +19,12 @@ def hello_world():
 def student_resume(student_id):
     student_info = {
         'name': 'Jeff Gulbronson',
+        'education': [
+            {
+                'degree': 'Bachelor of Software Engineering',
+                'school': 'University of Waterloo'
+            }
+        ],
         'experience': [
             {
                 'title': 'Applications Developer Intern',
@@ -30,7 +36,19 @@ def student_resume(student_id):
                     'Gained experience building and maintaining distributed systems, using tools such as Kafka, Zookeeper and Mesos/Marathon',
                     'Knowledgable in developing concurrent programs using the actor-model of programming'
                 ]
+            },
+            {
+                'title': 'Applications Developer Intern',
+                'company': 'Pagerduty',
+                'location': 'Toronto',
+                'description': [
+                    'Part of the regular on-call schedule, triaging and repairing issues from alerts',
+                    'Helped architect a MySQL to Kafka data pump, to provide transactional Kafka publishes',
+                    'Gained experience building and maintaining distributed systems, using tools such as Kafka, Zookeeper and Mesos/Marathon',
+                    'Knowledgable in developing concurrent programs using the actor-model of programming'
+                ]
             }
+
         ]
     }
 

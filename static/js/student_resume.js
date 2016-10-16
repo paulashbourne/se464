@@ -15,7 +15,7 @@ var Experience = React.createClass({
 
       return React.createElement(
         "div",
-        { key: i },
+        { className: "resume-block", key: i },
         React.createElement(
           "div",
           { className: "primary-header" },
@@ -63,6 +63,23 @@ var Education = React.createClass({
   displayName: "Education",
 
   render: function render() {
+    var education = this.props.education.map(function (ed, i) {
+      return React.createElement(
+        "div",
+        { key: i },
+        React.createElement(
+          "div",
+          { className: "primary-header" },
+          ed.degree
+        ),
+        React.createElement(
+          "div",
+          { className: "secondary-header" },
+          ed.school
+        )
+      );
+    });
+
     return React.createElement(
       "div",
       { className: "row" },
@@ -73,7 +90,8 @@ var Education = React.createClass({
           "div",
           { className: "title" },
           "Education"
-        )
+        ),
+        education
       )
     );
   }
@@ -87,7 +105,7 @@ var StudentResume = React.createClass({
       "div",
       { className: "container" },
       React.createElement(Experience, { experience: this.props.student_info.experience }),
-      React.createElement(Education, null)
+      React.createElement(Education, { education: this.props.student_info.education })
     );
   }
 });
