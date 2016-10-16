@@ -1,4 +1,4 @@
-from core import App
+from core.flaskwrap import App
 from models.employer import Employer
 import ujson
 
@@ -12,7 +12,7 @@ def main():
     app.register_blueprint(api, url_prefix='/api')
 
     # Connect to the database
-    from db import connect_db
+    from core.db import connect_db
     connect_db()
 
     # Listen for incoming connections

@@ -1,5 +1,5 @@
 from flask import render_template
-from core import Blueprint
+from core.flaskwrap import Blueprint
 
 web = Blueprint('web', __name__)
 

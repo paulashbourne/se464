@@ -1,4 +1,4 @@
-from db import connect_db
+from core.db import connect_db
 
 class Script(object):
 
