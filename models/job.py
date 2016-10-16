@@ -7,4 +7,3 @@ class Job(BaseDocument):
     description = f.StringField()
     location    = f.StringField()
     openings    = f.IntField()
-

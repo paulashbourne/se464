@@ -1,3 +1,4 @@
+from application import Application
 from education import Education
 from employer import Employer
 from experience import Experience
