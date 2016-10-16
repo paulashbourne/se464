@@ -1,15 +1,15 @@
-from flask import Flask
+from app import App
 from flask import render_template
 from pymongo import MongoClient
 client = MongoClient()
 
-app = Flask(__name__)
+app = App(__name__)
 
 db = client.se464
 
 print db
 
-@app.route('/')
+@app.get('/')
 def hello_world():
     return render_template('hello.html')
 
