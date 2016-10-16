@@ -1,10 +1,8 @@
-import mongoengine as me
+from mongoengine import fields as f
+from .base import BaseDocument
 
-class Employer(me.Document):
-    company_name = me.StringField()
-    website = me.StringField()
-
+class Employer(BaseDocument):
+    company_name = f.StringField()
+    website      = f.StringField()
     # List of recruiter emails
-    emails = me.ListField(me.StringField())
-    # List of Job.id's
-    job_postings = me.ListField(me.ObjectIdField())
+    emails       = f.ListField(me.StringField())

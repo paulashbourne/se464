@@ -1,11 +1,12 @@
-import mongoengine as me
+from mongoengine import fields as f
+from .base import BaseDocument
 
-class Experience(me.Document):
-    title = me.StringField()
-    company = me.StringField()
-    location = me.StringField()
+class Experience(BaseDocument):
+    title      = f.StringField()
+    company    = f.StringField()
+    location   = f.StringField()
 
-    start_time = me.DateTimeField()
-    end_time = me.DateTimeField()
+    start_time = f.DateTimeField()
+    end_time   = f.DateTimeField()
 
-    description = me.ListField(me.StringField())
+    description = f.ListField(me.StringField())

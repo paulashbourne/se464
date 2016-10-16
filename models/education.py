@@ -1,8 +1,8 @@
-import mongoengine as me
+from mongoengine import fields as f
+from .base import BaseDocument
 
-class Education(me.Document):
-    school = me.StringField()
-    degree = me.StringField()
-
-    start_time = me.DateTimeField()
-    end_time = me.DateTimeField()
+class Education(BaseDocument):
+    school     = f.StringField()
+    degree     = f.StringField()
+    start_time = f.DateTimeField()
+    end_time   = f.DateTimeField()
