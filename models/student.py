@@ -10,4 +10,3 @@ class Student(me.Document):
 
     # i.e. Python, Flask, React, etc.
     skills = me.ListField(me.StringField())
-

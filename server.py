@@ -20,3 +20,6 @@ def student_resume(student_id):
     }
 
     return render_template('student_resume.html', student_info=student_info)
+
+if __name__ == "__main__":
+    app.run()
