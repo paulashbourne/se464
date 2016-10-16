@@ -1,4 +1,6 @@
 from app import Blueprint
+from flask import request
+from models import Employer
 import ujson
 
 api = Blueprint('api', __name__)
@@ -10,3 +12,13 @@ def get_employer(employer_id):
         # TODO: throw error here
         pass
     return ujson.dumps(employer)
+
+@api.post('/employer')
+def create_employer():
+    if 'employer' not in request.args:
+        # throw error
+        pass
+
+    employer = Employer.create(request.args.get('employer'))
+    employer.save() 
+
