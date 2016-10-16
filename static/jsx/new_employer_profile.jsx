@@ -6,16 +6,16 @@ class NewEmployerProfile extends React.Component {
   render() {
     return (
       <form>
-        <label>Employer Name</label>
-        <input type="text" />
-        <label>Employer Description</label>
-        <input type="text" />
-        <label>Employer Website</label>
-        <input type="text" />
-        <label>E-mail</label>
-        <input type="text" />
-        <label>Job Descriptions</label>
-        <textarea rows="5" cols="50" />
+        <label>Employer Name</label><br/>
+        <input type="text" /><br/>
+        <label>Employer Description</label><br/>
+        <input type="text" /><br/>
+        <label>Employer Website</label><br/>
+        <input type="text" /><br/>
+        <label>E-mail</label><br/>
+        <input type="text" /><br/>
+        <label>Job Descriptions</label><br/>
+        <textarea rows="5" cols="50" /><br/>
         <input type="submit" name="submit" value="Submit" />
       </form>
     );
@@ -24,6 +24,6 @@ class NewEmployerProfile extends React.Component {
 
 ReactDOM.render(
     
-    <NewJobForm />,
+    <NewEmployerProfile />,
     document.getElementById('react-placeholder')
     );

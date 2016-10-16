@@ -51,6 +51,15 @@ def student_resume(student_id):
     return render_template('student_resume.html', student_info=student_info)
 
 
-@web.get('/employer/new_job')
-def new_job_posting():
+@web.get('/employer/<employer_id>/new_job')
+def new_job_posting(employer_id):
     return render_template('new_job_posting.html')
+
+@web.get('/employer/<employer_id>/profile')
+def employer_profile(employer_id):
+    return render_template('employer_profile.html')
+
+@web.get('/employer/new_profile')
+def new_employer_profile():
+    return render_template('new_employer_profile.html')
+
