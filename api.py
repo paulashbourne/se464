@@ -47,7 +47,7 @@ def get_jobs():
     if 'location' in request.args:
         query['location'] = request.args.get('location')
 
-    jobs = Job.find_by(query)
+    jobs = Job.objects(query)
     if jobs is None:
         # TODO: throw error
         pass

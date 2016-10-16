@@ -1,4 +1,11 @@
 var JobSearchPage = React.createClass({
+  handleSearch: function() {
+    console.log("Searching...");
+    $.get("/api/jobs", function(result) {
+      console.log(result);
+    });
+  },
+
   render: function() {
     return (
       <div className="container">
@@ -23,7 +30,7 @@ var JobSearchPage = React.createClass({
         </div>
         <div className="row">
           <div className="col-md-offset-2 col-md-8">
-            <button type="button">Search</button>
+            <button type="button" onClick={this.handleSearch}>Search</button>
           </div>
         </div>
       </div>

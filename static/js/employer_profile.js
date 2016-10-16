@@ -1,7 +1,9 @@
+"use strict";
+
 var Profile = React.createClass({
   displayName: "Profile",
 
-  render: function () {
+  render: function render() {
 
     return React.createElement(
       "div",
@@ -14,7 +16,7 @@ var Profile = React.createClass({
 var Joblist = React.createClass({
   displayName: "Joblist",
 
-  render: function () {
+  render: function render() {
 
     return React.createElement("div", null);
   }
@@ -23,7 +25,7 @@ var Joblist = React.createClass({
 var EmployerProfile = React.createClass({
   displayName: "EmployerProfile",
 
-  render: function () {
+  render: function render() {
     return React.createElement(
       "div",
       { className: "container" },
@@ -33,4 +35,4 @@ var EmployerProfile = React.createClass({
   }
 });
 
-ReactDOM.render(React.createElement(EmployerProfile, null), document.getElementById('react-placeholder'));
+ReactDOM.render(React.createElement(EmployerProfile, null), document.getElementById("react-placeholder"));
