@@ -12,3 +12,7 @@ print db
 @app.route('/')
 def hello_world():
       return render_template('hello.html')
+
+@app.route('/student/<student_id>/resume')
+def student_resume(student_id):
+        return 'Student resume'
