@@ -2,11 +2,11 @@ from core import App
 from models.employer import Employer
 from pymongo import MongoClient
 import ujson
-client = MongoClient()
+import mongoengine
 
 app = App(__name__)
 
-db = client.se464
+mongoengine.connect('se464', alias='default')
 
 def main():
     # Import and register handlers
@@ -17,8 +17,6 @@ def main():
 
     # Listen for incoming connections
     app.run()
-
-print db
 
 if __name__ == "__main__":
     main()

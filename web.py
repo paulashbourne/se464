@@ -11,6 +11,10 @@ def page_not_found(e):
 def hello_world():
     return render_template('hello.html')
 
+@web.get('/jobs/search')
+def job_search():
+    return render_template('job_search.html')
+
 @web.get('/student/<student_id>/resume')
 def student_resume(student_id):
     student_info = {
