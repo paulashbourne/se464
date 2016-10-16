@@ -1,6 +1,8 @@
 from app import App
 from flask import render_template
+from models.employer import Employer
 from pymongo import MongoClient
+import ujson
 client = MongoClient()
 
 app = App(__name__)
@@ -27,6 +29,14 @@ def student_resume(student_id):
     }
 
     return render_template('student_resume.html', student_info=student_info)
+
+@app.get('/employer/<employer_id>')
+def get_employer(employer_id):
+    employer = Employer.find_by({ 'id' : employer_id })
+    if employer is None:
+        # TODO: throw error here
+    
+    return ujson.dumps(employer)
 
 if __name__ == "__main__":
     app.run()
