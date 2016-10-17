@@ -54,7 +54,7 @@ def get_jobs():
     job_ids = map(lambda job: job.id, jobs)
 
     # Get student applications for those jobs
-    apps = Application.find({job_id : {'$in' : job_ids}})
+    apps = Application.find({'job_id' : {'$in' : job_ids}})
     apps_by_job_id = dict(zip(map(lambda app: app.id, apps), apps))
 
     # Assemble results as dicts
@@ -68,5 +68,8 @@ def get_jobs():
 
 @api.post('/apply/<student_id>/<job_id>')
 def apply(student_id, job_id):
-    application = Application(student_id=student_id, job_id=job_id)
+    application = Application(
+        student_id = student_id,
+        job_id     = job_id
+    )
     application.save()
