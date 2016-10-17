@@ -51,10 +51,12 @@ def get_jobs():
     if jobs is None:
         # TODO: throw error
         pass
+    job_ids = map(lambda job: job.id, jobs)
 
     # Get student applications for those jobs
-    apps = Application.find({job_id : {'$in' : job}})
-    apps_by_job_id = dict(zip(map(lambda app: app.job_id, apps), apps))
+    apps = Application.find({job_id : {'$in' : job_ids}})
+    app_ids = map(lambda app: app.id, apps)
+    apps_by_job_id = dict(zip(app_ids, apps))
 
     # Assemble results as dicts
     result = []
