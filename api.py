@@ -1,4 +1,4 @@
-from core import Blueprint
+from core.flaskwrap import Blueprint
 from flask import request
 from models.application import Application
 from models.employer import Employer
