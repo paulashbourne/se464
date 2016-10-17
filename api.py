@@ -47,15 +47,29 @@ def get_jobs():
     if 'location' in request.args:
         query['location'] = request.args.get('location')
 
-    jobs = Job.objects(query)
+    jobs = Job.find(query)
     if jobs is None:
         # TODO: throw error
         pass
+    job_ids = map(lambda job: job.id, jobs)
 
-    return ujson.dumps(jobs)
+    # Get student applications for those jobs
+    apps = Application.find({'job_id' : {'$in' : job_ids}})
+    apps_by_job_id = dict(zip(map(lambda app: app.id, apps), apps))
+
+    # Assemble results as dicts
+    result = []
+    for job in jobs:
+        _dict = job.to_dict()
+        _dict['application'] = application.to_dict()
+        result.append(_dict)
+
+    return ujson.dumps(result)
 
 @api.post('/apply/<student_id>/<job_id>')
 def apply(student_id, job_id):
-    application = Application(student_id=student_id, job_id=job_id)
+    application = Application(
+        student_id = student_id,
+        job_id     = job_id
+    )
     application.save()
-
