@@ -55,8 +55,7 @@ def get_jobs():
 
     # Get student applications for those jobs
     apps = Application.find({job_id : {'$in' : job_ids}})
-    app_ids = map(lambda app: app.id, apps)
-    apps_by_job_id = dict(zip(app_ids, apps))
+    apps_by_job_id = dict(zip(map(lambda app: app.id, apps), apps))
 
     # Assemble results as dicts
     result = []
