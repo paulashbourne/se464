@@ -5,33 +5,74 @@ class NewJobForm extends React.Component {
 
   render() {
     return React.createElement(
-      "form",
-      null,
+      "div",
+      { className: "container" },
       React.createElement(
-        "label",
+        "form",
         null,
-        "Job Name"
-      ),
-      React.createElement("br", null),
-      React.createElement("input", { type: "text" }),
-      React.createElement("br", null),
-      React.createElement(
-        "label",
-        null,
-        "Number of Openings"
-      ),
-      React.createElement("br", null),
-      React.createElement("input", { type: "number" }),
-      React.createElement("br", null),
-      React.createElement(
-        "label",
-        null,
-        "Job Descriptions"
-      ),
-      React.createElement("br", null),
-      React.createElement("textarea", { rows: "5", cols: "50" }),
-      React.createElement("br", null),
-      React.createElement("input", { type: "submit", name: "submit", value: "Create Job" })
+        React.createElement(
+          "div",
+          { className: "row mb20" },
+          React.createElement(
+            "div",
+            { className: "col-md-offset-2 col-md-8" },
+            React.createElement(
+              "span",
+              { className: "search-title" },
+              "New Job Posting"
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "row mb20" },
+          React.createElement(
+            "div",
+            { className: "col-md-offset-2 col-md-8" },
+            React.createElement(
+              "div",
+              { className: "secondary-header" },
+              "Job Title"
+            ),
+            React.createElement("input", { className: "mb20 full-width" }),
+            React.createElement(
+              "div",
+              { className: "secondary-header" },
+              "Number of Openings"
+            ),
+            React.createElement("input", { type: "number", className: "full-width", value: "1" })
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "row mb20" },
+          React.createElement(
+            "div",
+            { className: "col-md-offset-2 col-md-8" },
+            React.createElement(
+              "div",
+              { className: "secondary-header" },
+              "Job Title"
+            ),
+            React.createElement("input", { className: "mb20 full-width" }),
+            React.createElement(
+              "div",
+              { className: "secondary-header" },
+              "Job Description"
+            ),
+            React.createElement("textarea", { className: "full-width" })
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "row mb20" },
+          React.createElement(
+            "div",
+            { className: "col-md-offset-2 col-md-8" },
+            React.createElement("input", { type: "submit", type: "button", value: "Create Job" })
+          )
+        )
+      )
     );
   }
 }
