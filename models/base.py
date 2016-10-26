@@ -30,7 +30,7 @@ class BaseDocument(Document):
             for fieldName, direction in sort:
                 directionPrefix = '+' if direction >= 0 else '-'
                 sorts.append(directionPrefix + fieldName)
-            queryset.order_by(*sorts)
+            queryset = queryset.order_by(*sorts)
         return queryset
 
     @classmethod
