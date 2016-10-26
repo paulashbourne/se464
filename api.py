@@ -92,7 +92,11 @@ def get_jobs():
     result = []
     for job in jobs:
         _dict = job.to_dict()
-        _dict['application'] = apps_by_job_id.get(job.id)
+        if job.id in apps_by_job_id:
+            _dict['applications'] = apps_by_job_id[job.id].to_dict()
+        else:
+            _dict['applications'] = []
+        
         result.append(_dict)
 
     print result
