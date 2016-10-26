@@ -1,14 +1,6 @@
 from mongoengine import fields as f
-from .base import BaseDocument
 
-class Experience(BaseDocument):
-    meta = {
-        'allow_inheritance' : False,
-        'collection'        : 'experience',
-    }
-
-    student_id = f.ObjectIdField(required = True)
-
+class Experience(f.EmbeddedDocument):
     title      = f.StringField(required = True)
     company    = f.StringField(required = True)
     location   = f.StringField()
@@ -18,15 +10,12 @@ class Experience(BaseDocument):
 
     description = f.StringField()
 
-    @classmethod
-    def dict_include(cls):
-        return [
-            'id',
-            'student_id',
-            'title',
-            'company',
-            'location',
-            'start_time',
-            'end_time',
-            'description'
-        ]
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'company': self.company,
+            'location': self.location,
+            'description': self.description
+        }
+

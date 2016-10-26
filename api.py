@@ -2,43 +2,73 @@ from core.flaskwrap import Blueprint
 from flask import request
 from models.application import Application
 from models.employer import Employer
+from models.student import Student
 from models.experience import Experience
 from models.job import Job
 import ujson
 from bson import ObjectId
+import mongoengine as me
 
 api = Blueprint('api', __name__)
 
-@api.post('/employer')
+def save_model(model):
+    try:
+        model.save()
+        return ujson.dumps(model.to_dict())
+    except me.ValidationError:
+        return "Validation error", 400
+    except me.NotUniqueError:
+        return "Not unique", 409
+
+def models_to_dict(models):
+    return map(lambda m: m.to_dict(), models)
+
+@api.post('/employers')
 def create_employer():
-    data = ujson.loads(request.data)
-    if 'employer' not in data:
-        # TODO: throw error here
-        pass
+    data = request.json
+    employer = Employer(**data)
+    return save_model(employer)
 
-    employer = Employer(**data.get('employer'))
-    employer.save()
-    return ujson.dumps(employer.to_dict())
-
-@api.get('/employer/<employer_id>')
+@api.get('/employers/<employer_id>')
 def get_employer(employer_id):
     employer_id = ObjectId(employer_id)
-    employer = Employer.by_id(employer_id)
-    if employer is None:
-        # TODO: throw error here
-        pass
+    employers = Employer.objects(id=employer_id)
+    for employer in employers:
+        return ujson.dumps(employer.to_dict())
 
-    return ujson.dumps(employer.to_dict())
+    return "Not found", 404
 
-@api.post('/student/<student_id>/experience')
+@api.get('/employers')
+def get_employers():
+    employers = Employer.objects()
+    return ujson.dumps(models_to_dict(employers))
+
+@api.post('/students')
+def create_student():
+    data = request.json
+    student = Student(**data)
+    return save_model(student)
+
+@api.get('/students/<student_id>')
+def get_student(student_id):
+    students = Student.objects(id=student_id)
+    for student in students:
+        return ujson.dumps(student.to_dict())
+
+    return "Not found", 404
+
+@api.post('/students/<student_id>/experience')
 def add_experience(student_id):
-    exp_data = request.form.to_dict()
-    exp_data['student_id'] = student_id
-    print exp_data
+    exp_data = request.json
 
     experience = Experience(**exp_data)
-    experience.save()
-    return ujson.dumps(experience.to_dict())
+    students = Student.objects(id=student_id)
+    for student in students:
+        student.experience.append(experience)
+        print student.experience
+        return save_model(student)
+
+    return "Not found", 404
 
 @api.post('/student/<student_id>/education')
 def add_education(student_id):
@@ -53,11 +83,9 @@ def add_education(student_id):
 
 @api.post('/jobs')
 def create_job():
-    print request.form.to_dict()
-    data = request.form.to_dict()
+    data = request.json
     job = Job(**data)
-    job.save()
-    return ujson.dumps(job.to_dict())
+    return save_model(job)
 
 @api.get('/jobs')
 def get_jobs():
@@ -101,11 +129,11 @@ def get_jobs():
 
     return ujson.dumps(result)
 
-@api.post('/apply/<student_id>/<job_id>')
-def apply(student_id, job_id):
+@api.post('/jobs/apply')
+def apply():
+    data = request.json
     application = Application(
-        student_id = ObjectId(student_id),
-        job_id     = ObjectId(job_id)
+        student_id = ObjectId(data.get('student_id')),
+        job_id     = ObjectId(data.get('job_id'))
     )
-    application.save()
-    return ujson.dumps(application);
+    return save_model(application)

@@ -1,7 +1,6 @@
 from mongoengine import fields as f
-from .base import BaseDocument
 
-class Education(BaseDocument):
+class Education(f.EmbeddedDocument):
     meta = {
         'allow_inheritance' : False,
         'collection'        : 'education',
@@ -13,13 +12,11 @@ class Education(BaseDocument):
     start_time = f.DateTimeField()
     end_time   = f.DateTimeField()
 
-    @classmethod
-    def dict_include(cls):
-        return [
-            'id',
-            'school',
-            'degree',
-            'major',
-            'start_time',
-            'end_time'
-        ]
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'school': self.school,
+            'degree': self.degree,
+            'major': self.major
+        }
+
