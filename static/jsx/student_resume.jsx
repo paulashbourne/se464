@@ -11,7 +11,7 @@ var AddExperience = React.createClass({
     console.log(postData);
     var studentId = window.pageData.studentInfo.student_id
     $.post('/api/student/' + studentId + '/experience' , postData , function() {
-        console.log("Added Job!");
+        location.reload();
       });
   },
 
