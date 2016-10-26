@@ -65,7 +65,7 @@ def get_jobs():
     query = {}
 
     if 'employer_id' in request.args:
-        query['employer_id'] = request.args.get('employer_id')
+        query['employer_id'] = ObjectId(request.args.get('employer_id'))
 
     if 'company_name' in request.args:
         company_name = request.args.get('company_name')

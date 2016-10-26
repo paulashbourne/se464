@@ -93,18 +93,18 @@ class ApiTestCase(BaseTestCase):
         job2 = Job(**fields2)
         job1.save()
         job2.save()
+
+        expected_results = [job1.to_dict(), job2.to_dict()]
+        for row in expected_results:
+            row['applications'] = []
         
         # Check employer ID
-        resp = self.app.get('/api/jobs', data = {
-            'employer_id' : e.id 
-        })
-        self.check_resp(resp, 200, [fields1, fields2])
+        resp = self.app.get('/api/jobs?employer_id=%s' % e.id)
+        self.check_resp(resp, 200, expected_results)
 
         # Check location
-        resp = self.app.get('/api/jobs', data = {
-            'location' : 'San Francisco' 
-        })
-        self.check_resp(resp, 200, fields2)
+        resp = self.app.get('/api/jobs?location=San%20Francisco')
+        self.check_resp(resp, 200, [expected_results[1]])
 
 if __name__ == '__main__':
     unittest.main()
