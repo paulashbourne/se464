@@ -14,6 +14,7 @@ class Job(BaseDocument):
     def to_dict(self):
         employer = Employer.by_id(self.employer_id)
         return {
+            'job_id': str(self.id),
             'company_name': employer.company_name,
             'employer_id': str(self.employer_id),
             'position': self.position,

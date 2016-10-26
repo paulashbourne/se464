@@ -1,10 +1,36 @@
+var studentId = '507f191e810c19729de860ea';
+
 var JobPosting = React.createClass({
+  getInitialState: function() {
+    return {
+      applied: this.props.job.application
+    };
+  },
+
+  apply: function() {
+    console.log("Applying to " + this.props.job.job_id);
+    var that = this;
+    $.post('/api/apply/' + studentId + '/' + this.props.job.job_id, function() {
+      console.log("Applied");
+      that.setState({applied: true});
+    });
+  },
+
   render: function() {
+    console.log(this.state);
+    var buttonText = this.state.applied ? "Applied" : "Apply";
     return (
-      <div>
-        <div className="primary-header">{this.props.job.position}</div>
-        <div className="primary-header">
-          {this.props.job.company_name} - {this.props.job.location}
+      <div className="row job-posting">
+        <div className="col-md-8">
+          <div className="primary-header">
+            {this.props.job.position}
+          </div>
+          <div className="secondary-header">
+            {this.props.job.company_name} - {this.props.job.location}
+          </div>
+        </div>
+        <div className="col-md-4">
+          <button type="button" onClick={this.apply}>{buttonText}</button>
         </div>
       </div>
     );
