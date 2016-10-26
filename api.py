@@ -63,19 +63,23 @@ def create_job():
 def get_jobs():
     query = {}
 
-    if 'employer_id' in request.args:
+    request_data = request.args.to_dict()
+    print request_data
+    if 'employer_id' in request_data:
         query['employer_id'] = ObjectId(request.args.get('employer_id'))
 
-    if 'company_name' in request.args:
-        company_name = request.args.get('company_name')
-        for company in Employer.objects(company_name=company_name):
+    if 'company_name' in request_data:
+        company_name = request_data.get('company_name')
+        print company_name
+        for company in Employer.find({'company_name': company_name}):
+            print company
             query['employer_id'] = company.id
             break
         else:
             query['company_name'] = '-1'
 
-    if 'location' in request.args:
-        query['location'] = request.args.get('location')
+    if 'location' in request_data:
+        query['location'] = request_data.get('location')
 
     jobs = Job.find(query)
     if jobs is None:
