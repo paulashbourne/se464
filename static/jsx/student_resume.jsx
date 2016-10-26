@@ -1,3 +1,29 @@
+var AddExperience = React.createClass({
+  render: function() {
+    return (
+      <div className="row mb20">
+        <div className="col-md-offset-2 col-md-8">
+          <div className="title">Add Experience</div>
+          <div>
+            <div className="secondary-header">
+              Job Title
+             </div>
+             <input id="job-title-input" className="full-width" />
+             <div className="secondary-header">
+               Company
+              </div>
+              <input id="company-input" className="full-width"/>
+             <div className="secondary-header">
+               Location
+              </div>
+              <input id="company-input" className="full-width"/>
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
 var Experience = React.createClass({
   render: function() {
     var past_experience = this.props.experience.map(function(exp, i) {
@@ -57,6 +83,7 @@ var StudentResume = React.createClass({
   render: function() {
     return (
       <div className="container">
+        <AddExperience />
         <Experience experience={this.props.student_info.experience} />
         <Education education={this.props.student_info.education} />
       </div>
