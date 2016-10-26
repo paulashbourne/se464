@@ -6,3 +6,11 @@ class Employer(BaseDocument):
     website      = f.StringField()
     # List of recruiter emails
     emails       = f.ListField(f.StringField())
+
+    @classmethod
+    def dict_include(self):
+        return [
+            'company_name',
+            'website',
+            'emails'
+        ]
