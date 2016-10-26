@@ -5,10 +5,10 @@ from models import Employer
 class Job(BaseDocument):
     meta = {'collection': 'jobs'}
 
-    employer_id = f.ObjectIdField()
-    position    = f.StringField()
-    description = f.StringField()
-    location    = f.StringField()
+    employer_id = f.ObjectIdField(required = True)
+    position    = f.StringField(required = True)
+    description = f.StringField(required = True)
+    location    = f.StringField(required = True)
     openings    = f.IntField()
 
     def to_dict(self):

@@ -2,7 +2,7 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Student(BaseDocument):
-    name = f.StringField()
+    name = f.StringField(required = True)
 
     # List of Education.id's
     education  = f.ListField(f.ObjectIdField())

@@ -2,10 +2,10 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Experience(BaseDocument):
-    student_id = f.ObjectIdField()
+    student_id = f.ObjectIdField(required = True)
 
-    title      = f.StringField()
-    company    = f.StringField()
+    title      = f.StringField(required = True)
+    company    = f.StringField(required = True)
     location   = f.StringField()
 
     start_time = f.DateTimeField()

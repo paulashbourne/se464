@@ -4,7 +4,7 @@ from .base import BaseDocument
 class Employer(BaseDocument):
     meta = {'collection': 'employers'}
 
-    company_name = f.StringField(unique=True)
+    company_name = f.StringField(required = True, unique = True)
     website      = f.StringField()
     # List of recruiter emails
     emails       = f.ListField(f.StringField())
