@@ -243,17 +243,17 @@ class SeedScript(Script):
             job_list.append(job)
 
         apps = [
-            Application(job_list[0]['id'], students[0]['id']),
-            Application(job_list[3]['id'], students[0]['id']),
-            Application(job_list[4]['id'], students[0]['id']),
-            Application(job_list[2]['id'], students[1]['id']),
-            Application(job_list[1]['id'], students[1]['id']),
-            Application(job_list[4]['id'], students[1]['id']),
-            Application(job_list[0]['id'], students[2]['id']),
-            Application(job_list[1]['id'], students[2]['id']),
-            Application(job_list[2]['id'], students[2]['id']),
-            Application(job_list[3]['id'], students[2]['id']),
-            Application(job_list[4]['id'], students[2]['id'])
+            Application(job_id = job_list[0]['id'], student_id = students[0]['id']),
+            Application(job_id = job_list[3]['id'], student_id = students[0]['id']),
+            Application(job_id = job_list[4]['id'], student_id = students[0]['id']),
+            Application(job_id = job_list[2]['id'], student_id = students[1]['id']),
+            Application(job_id = job_list[1]['id'], student_id = students[1]['id']),
+            Application(job_id = job_list[4]['id'], student_id = students[1]['id']),
+            Application(job_id = job_list[0]['id'], student_id = students[2]['id']),
+            Application(job_id = job_list[1]['id'], student_id = students[2]['id']),
+            Application(job_id = job_list[2]['id'], student_id = students[2]['id']),
+            Application(job_id = job_list[3]['id'], student_id = students[2]['id']),
+            Application(job_id = job_list[4]['id'], student_id = students[2]['id'])
         ]
 
         for app in apps:

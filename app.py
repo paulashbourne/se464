@@ -39,6 +39,10 @@ class App(flask.Flask):
             password = self.config['DB_PASSWORD'],
         )
 
+    def drop_db(self):
+        # Clear the current database - USE WITH CAUTION
+        self.db.drop_database(self.config['DB_NAME'])
+
 def main():
     # Listen for incoming connections
     app = App('dev')
