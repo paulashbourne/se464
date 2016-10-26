@@ -10,6 +10,7 @@ class Employer(BaseDocument):
     @classmethod
     def dict_include(self):
         return [
+            'id',
             'company_name',
             'website',
             'emails'

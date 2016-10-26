@@ -13,5 +13,8 @@ class Student(BaseDocument):
     @classmethod
     def dict_include(cls):
         return [
-            'name'
+            'id',
+            'name',
+            'education',
+            'skills',
         ]

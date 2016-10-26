@@ -7,3 +7,14 @@ class Education(BaseDocument):
     major      = f.StringField()
     start_time = f.DateTimeField()
     end_time   = f.DateTimeField()
+
+    @classmethod
+    def dict_include(cls):
+        return [
+            'id',
+            'school',
+            'degree',
+            'major',
+            'start_time',
+            'end_time'
+        ]

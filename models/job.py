@@ -7,3 +7,14 @@ class Job(BaseDocument):
     description = f.StringField()
     location    = f.StringField()
     openings    = f.IntField()
+
+    @classmethod
+    def dict_include(cls):
+        return [
+            'id',
+            'employer_id',
+            'position',
+            'description',
+            'location',
+            'openings',
+        ]

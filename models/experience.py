@@ -12,3 +12,16 @@ class Experience(BaseDocument):
     end_time   = f.DateTimeField()
 
     description = f.StringField()
+
+    @classmethod
+    def dict_include(cls):
+        return [
+            'id',
+            'student_id',
+            'title',
+            'company',
+            'location',
+            'start_time',
+            'end_time',
+            'description'
+        ]
