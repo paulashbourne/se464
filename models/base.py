@@ -2,7 +2,10 @@ from mongoengine import Document
 from bson import ObjectId
 
 class BaseDocument(Document):
-    meta = {'allow_inheritance': True}
+    meta = {
+        'allow_inheritance': True,
+        'abstract': True
+    }
 
     @classmethod
     def create(cls, **kwargs):

@@ -10,12 +10,15 @@ api = Blueprint('api', __name__)
 
 @api.post('/employer')
 def create_employer():
-    if 'employer' not in request.args:
+    data = ujson.loads(request.data)
+    print data
+    if 'employer' not in data:
         # TODO: throw error here
         pass
 
-    employer = Employer(**request.args.get('employer'))
+    employer = Employer(**data.get('employer'))
     employer.save()
+    return ujson.dumps(employer.to_dict())
 
 @api.get('/employer/<employer_id>')
 def get_employer(employer_id):
@@ -48,12 +51,14 @@ def add_education(student_id):
 
 @api.post('/job')
 def create_job():
-    if 'job' not in request.args:
+    data = ujson.loads(request.data)
+    if 'job' not in data:
         # TODO: throw error
         pass
 
-    job = Job(**request.args.get('job'))
+    job = Job(**data.get('job'))
     job.save()
+    return ujson.dumps(job.to_dict())
 
 @api.get('/jobs')
 def get_jobs():
@@ -78,11 +83,13 @@ def get_jobs():
     apps = Application.find({'job_id' : {'$in' : job_ids}})
     apps_by_job_id = dict(zip(map(lambda app: app.id, apps), apps))
 
+    print apps_by_job_id
+
     # Assemble results as dicts
     result = []
     for job in jobs:
         _dict = job.to_dict()
-        _dict['application'] = application.to_dict()
+        _dict['application'] = apps_by_job_id.get(job.id)
         result.append(_dict)
 
     return ujson.dumps(result)

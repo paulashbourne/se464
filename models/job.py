@@ -2,6 +2,8 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Job(BaseDocument):
+    meta = {'collection': 'jobs'}
+
     employer_id = f.ObjectIdField()
     position    = f.StringField()
     description = f.StringField()
