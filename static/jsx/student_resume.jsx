@@ -1,4 +1,20 @@
 var AddExperience = React.createClass({
+  addExperience: function() {
+    var jobTitle = $('#job-title-input').val();
+    var company = $('#company-input').val();
+    var jobLocation = $('#location-input').val();
+    var jobDescription = $('#description-input').val();
+    var postData = {company: company,
+                    title: jobTitle,
+                    description: jobDescription,
+                    location: jobLocation};
+    console.log(postData);
+    var studentId = window.pageData.studentInfo.student_id
+    $.post('/api/student/' + studentId + '/experience' , postData , function() {
+        console.log("Added Job!");
+      });
+  },
+
   render: function() {
     return (
       <div className="row mb20">
@@ -16,8 +32,13 @@ var AddExperience = React.createClass({
              <div className="secondary-header">
                Location
               </div>
-              <input id="company-input" className="full-width"/>
+              <input id="location-input" className="full-width"/>
+             <div className="secondary-header">
+               Description
+              </div>
+              <textarea id="description-input" className="full-width"/>
           </div>
+          <button type="button" onClick={this.addExperience}>Add Experience</button>
         </div>
       </div>
     );
@@ -27,7 +48,7 @@ var AddExperience = React.createClass({
 var Experience = React.createClass({
   render: function() {
     var past_experience = this.props.experience.map(function(exp, i) {
-      var points = exp.description.map(function(p, i) {
+      var points = exp.description.split('\n').map(function(p, i) {
         return (
           <li key={i}>
             { p }

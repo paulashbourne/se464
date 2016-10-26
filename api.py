@@ -2,6 +2,7 @@ from core.flaskwrap import Blueprint
 from flask import request
 from models.application import Application
 from models.employer import Employer
+from models.experience import Experience
 from models.job import Job
 import ujson
 from bson import ObjectId
@@ -31,11 +32,13 @@ def get_employer(employer_id):
 
 @api.post('/student/<student_id>/experience')
 def add_experience(student_id):
-    exp_data = request.args.data
+    exp_data = request.form.to_dict()
     exp_data['student_id'] = student_id
+    print exp_data
 
     experience = Experience(**exp_data)
     experience.save()
+    return ujson.dumps(experience.to_dict())
 
 @api.post('/student/<student_id>/education')
 def add_education(student_id):
