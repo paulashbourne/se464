@@ -114,4 +114,4 @@ while (!window.pageData.studentInfo) {}
 
 console.log(window.pageData.studentInfo);
 
-ReactDOM.render(React.createElement(StudentResume, { student_info: window.pageData.studentInfo }), document.getElementById("react-placeholder"));
+ReactDOM.render(React.createElement(StudentResume, { student_info: window.pageData.studentInfo }), document.getElementById('react-placeholder'));

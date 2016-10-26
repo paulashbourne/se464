@@ -1,0 +1,30 @@
+{
+  "name": "se464",
+  "version": "1.0.0",
+  "description": "Make sure you have mongo installed",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "transpile": "babel --presets es2015,react --watch static/jsx/ --out-dir static/js/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulashbourne/se464.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulashbourne/se464/issues"
+  },
+  "homepage": "https://github.com/paulashbourne/se464#readme",
+  "dependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0"
+  }
+}
