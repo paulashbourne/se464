@@ -18,7 +18,7 @@ def create_employer():
 
 @api.get('/employer/<employer_id>')
 def get_employer(employer_id):
-    employer = Employer.find({ 'id' : employer_id })
+    employer = Employer.by_id(employer_id)
     if employer is None:
         # TODO: throw error here
         pass
@@ -35,7 +35,7 @@ def add_experience(student_id):
 
 @api.post('/student/<student_id>/education')
 def add_education(student_id):
-    student = Student.find({ 'id' : student_id })
+    student = Student.by_id(student_id)
 
     edu = request.args.data
     education = Education(**edu)
