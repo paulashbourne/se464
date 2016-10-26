@@ -4,6 +4,7 @@ from models.application import Application
 from models.employer import Employer
 from models.job import Job
 import ujson
+from bson import ObjectId
 
 api = Blueprint('api', __name__)
 
@@ -18,12 +19,13 @@ def create_employer():
 
 @api.get('/employer/<employer_id>')
 def get_employer(employer_id):
+    employer_id = ObjectId(employer_id)
     employer = Employer.by_id(employer_id)
     if employer is None:
         # TODO: throw error here
         pass
 
-    return ujson.dumps(employer)
+    return ujson.dumps(employer.to_dict())
 
 @api.post('/student/<student_id>/experience')
 def add_experience(student_id):
