@@ -4,5 +4,6 @@ from .base import BaseDocument
 class Education(BaseDocument):
     school     = f.StringField()
     degree     = f.StringField()
+    major      = f.StringField()
     start_time = f.DateTimeField()
     end_time   = f.DateTimeField()

@@ -10,3 +10,9 @@ class Script(object):
     def run(self):
         # Should be defined in the script
         pass
+
+    def main(self):
+        self.run()
+
+if __name__ == "__main__":
+    Script().main()
