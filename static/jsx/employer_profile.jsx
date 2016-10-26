@@ -1,5 +1,25 @@
 
-
+var JobPosting = React.createClass({
+  render: function() {
+    return (
+      <div className="row job-posting">
+        <div className="col-md-8">
+          <div className="primary-header">
+            {this.props.job.position}
+          </div>
+          <div className="secondary-header">
+            {this.props.job.company_name} - {this.props.job.location}
+          </div>
+        </div>
+        <div className="col-md-4">
+          <div className="secondary-header">
+            {this.props.job.applications.length} Applications
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
 
 class EmployerInfo extends React.Component {
   constructor(props) {
@@ -9,12 +29,12 @@ class EmployerInfo extends React.Component {
       that.setState({'employer_info': $.parseJSON(results)});
       console.log("done");
     });*/
-    
-    //console.log(that.state.employer_info); 
+
+    //console.log(that.state.employer_info);
   }
 
   render() {
-  	console.log(this.props.employer_info[0]);
+
     return (
 
       <div className="row">
@@ -52,10 +72,14 @@ class EmployerInfo extends React.Component {
 
 class EmployerListings extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
   }
 
   render() {
+    var jobs = window.pageData.jobs.map(function(job, i) {
+      return <JobPosting job={job} key={i} />;
+    });
+
     return (
 
       <div className="row">
@@ -68,7 +92,7 @@ class EmployerListings extends React.Component {
         </div>
         <div className="row mb20">
           <div className="col-md-offset-2 col-md-8">
-            test
+          { jobs }
           </div>
         </div>
       </div>
