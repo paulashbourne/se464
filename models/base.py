@@ -11,6 +11,13 @@ class BaseDocument(Document):
     def dict_include(cls):
         return []
 
+    # query  - json query
+    # limit  - integer
+    # offset - integer
+    # sort   - list of tuples, where each tuple has a field name
+    #          and a direction (+1 or -1)
+    #          Example: sort=[('name', 1)] sorts by name ascending
+    #                   sort=[('name', -1)] sorts by name descending
     @classmethod
     def find(cls, query, limit=None, offset=None, sort=None):
         queryset = cls.objects.filter(__raw__ = query)
@@ -23,6 +30,7 @@ class BaseDocument(Document):
             for fieldName, direction in sort:
                 directionPrefix = '+' if direction >= 0 else '-'
                 sorts.append(directionPrefix + fieldName)
+            queryset.order_by(*sorts)
         return queryset
 
     @classmethod
