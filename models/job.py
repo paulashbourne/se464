@@ -1,5 +1,6 @@
 from mongoengine import fields as f
 from .base import BaseDocument
+from models import Employer
 
 class Job(BaseDocument):
     meta = {'collection': 'jobs'}
@@ -10,13 +11,13 @@ class Job(BaseDocument):
     location    = f.StringField()
     openings    = f.IntField()
 
-    @classmethod
-    def dict_include(cls):
-        return [
-            'id',
-            'employer_id',
-            'position',
-            'description',
-            'location',
-            'openings',
-        ]
+    def to_dict(self):
+        employer = Employer.by_id(self.employer_id)
+        return {
+            'company_name': employer.company_name,
+            'employer_id': str(self.employer_id),
+            'position': self.position,
+            'description': self.description,
+            'location': self.location,
+            'openings': self.openings
+        }

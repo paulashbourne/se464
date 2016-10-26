@@ -1,7 +1,9 @@
+"use strict";
+
 var Experience = React.createClass({
   displayName: "Experience",
 
-  render: function () {
+  render: function render() {
     var past_experience = this.props.experience.map(function (exp, i) {
       var points = exp.description.map(function (p, i) {
         return React.createElement(
@@ -60,7 +62,7 @@ var Experience = React.createClass({
 var Education = React.createClass({
   displayName: "Education",
 
-  render: function () {
+  render: function render() {
     var education = this.props.education.map(function (ed, i) {
       return React.createElement(
         "div",
@@ -98,7 +100,7 @@ var Education = React.createClass({
 var StudentResume = React.createClass({
   displayName: "StudentResume",
 
-  render: function () {
+  render: function render() {
     return React.createElement(
       "div",
       { className: "container" },
@@ -112,4 +114,4 @@ while (!window.pageData.studentInfo) {}
 
 console.log(window.pageData.studentInfo);
 
-ReactDOM.render(React.createElement(StudentResume, { student_info: window.pageData.studentInfo }), document.getElementById('react-placeholder'));
+ReactDOM.render(React.createElement(StudentResume, { student_info: window.pageData.studentInfo }), document.getElementById("react-placeholder"));

@@ -1,7 +1,9 @@
+"use strict";
+
 var CommentBox = React.createClass({
   displayName: "CommentBox",
 
-  render: function () {
+  render: function render() {
     return React.createElement(
       "div",
       { className: "commentBox" },
@@ -10,4 +12,4 @@ var CommentBox = React.createClass({
     );
   }
 });
-ReactDOM.render(React.createElement(CommentBox, { student_info: window.pageData.studentInfo }), document.getElementById('react-placeholder'));
+ReactDOM.render(React.createElement(CommentBox, { student_info: window.pageData.studentInfo }), document.getElementById("react-placeholder"));

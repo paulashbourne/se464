@@ -1,3 +1,16 @@
+var JobPosting = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <div className="primary-header">{this.props.job.position}</div>
+        <div className="primary-header">
+          {this.props.job.company_name} - {this.props.job.location}
+        </div>
+      </div>
+    );
+  }
+});
+
 var JobSearchPage = React.createClass({
   getInitialState: function() {
     return { results: undefined };
@@ -6,7 +19,16 @@ var JobSearchPage = React.createClass({
   handleSearch: function() {
     console.log("Searching...");
     var that = this;
-    $.get("/api/jobs", function(results) {
+    var companyName = $('#company-input').val();
+    var companyLocation = $('#company-location').val();
+    var queryString = '';
+    if (companyName.length > 0) {
+      queryString += "&company_name=" + companyName;
+    }
+    if (companyLocation.length > 0) {
+      queryString += "&location=" + companyLocation;
+    }
+    $.get('/api/jobs?' + queryString, function(results) {
       that.setState({'results': $.parseJSON(results)});
     });
   },
@@ -15,10 +37,15 @@ var JobSearchPage = React.createClass({
     var results = <div></div>;
     console.log(this.state.results);
     if (this.state.results) {
-    console.log(this.state.results.length);
+      var jobs = this.state.results.map(function(job, i) {
+        return <JobPosting job={job} key={i} />;
+      });
       results = (
         <div>
           Showing {this.state.results.length} results
+          <div>
+            { jobs }
+          </div>
         </div>
       );
     }
@@ -37,11 +64,11 @@ var JobSearchPage = React.createClass({
             <div className="secondary-header">
               Who would you like to work for?
              </div>
-             <input className="mb20 full-width" placeholder="Company" />
+             <input id="company-input" className="mb20 full-width" placeholder="Company" />
              <div className="secondary-header">
                Where would you like to work?
               </div>
-              <input className="full-width" placeholder="Location" />
+              <input id="company-location" className="full-width" placeholder="Location" />
           </div>
         </div>
         <div className="row mb20">
