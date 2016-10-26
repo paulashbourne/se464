@@ -4,4 +4,4 @@ install:
 
 clean:
 	find . -name "*.pyc" -exec rm -rf {} \;
-	rm -r static/js
+	rm -rf static/js
