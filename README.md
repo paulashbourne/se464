@@ -41,6 +41,14 @@ If you need the frontend, you also need to transpile `.jsx` files:
 $ npm run transpile
 ```
 
+# Development tools
+## Database Shell
+Use for testing queries, manipulating data, or experimenting with
+methods/classes
+```
+$ python dbshell.py
+```
+
 # Miscellaneous
 ## Clean up compiled files
 ```
