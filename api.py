@@ -66,7 +66,7 @@ def get_jobs():
     query = {}
 
     if 'employer_id' in request.args:
-        query['employer_id'] = request.args.get('employer_id')
+        query['employer_id'] = ObjectId(request.args.get('employer_id'))
 
     if 'company_name' in request.args:
         company_name = request.args.get('company_name')
@@ -87,13 +87,14 @@ def get_jobs():
 
     # Get student applications for those jobs
     apps = Application.find({'job_id' : {'$in' : job_ids}})
-    apps_by_job_id = dict(zip(map(lambda app: app.id, apps), apps))
+    apps = map(lambda app: app.to_dict(), apps)
+    apps_by_job_id = dict(zip(map(lambda app: app['job_id'], apps), apps))
 
     # Assemble results as dicts
     result = []
     for job in jobs:
         _dict = job.to_dict()
-        _dict['application'] = apps_by_job_id.get(job.id)
+        _dict['application'] = apps_by_job_id.get(str(job.id))
         result.append(_dict)
 
     print result
@@ -101,8 +102,11 @@ def get_jobs():
 
 @api.post('/apply/<student_id>/<job_id>')
 def apply(student_id, job_id):
+    print student_id
+    print job_id
     application = Application(
-        student_id = student_id,
-        job_id     = job_id
+        student_id = ObjectId(student_id),
+        job_id     = ObjectId(job_id)
     )
     application.save()
+    return ujson.dumps(application);

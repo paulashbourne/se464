@@ -57,7 +57,7 @@ def student_resume(student_id):
 
 @web.get('/employer/<employer_id>/new_job')
 def new_job_posting(employer_id):
-    return render_template('new_job_posting.html')
+    return render_template('new_job_posting.html', employer_id=employer_id)
 
 @web.get('/employer/<employer_id>/profile')
 def employer_profile(employer_id):

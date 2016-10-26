@@ -12,4 +12,4 @@ var CommentBox = React.createClass({
     );
   }
 });
-ReactDOM.render(React.createElement(CommentBox, { student_info: window.pageData.studentInfo }), document.getElementById("react-placeholder"));
+ReactDOM.render(React.createElement(CommentBox, { student_info: window.pageData.studentInfo }), document.getElementById('react-placeholder'));

@@ -11,8 +11,18 @@ babel --presets es2015,react --watch jsx/ --out-dir js/
 
 Then you can serve it from the static directory
 
-# Installing python dependencies
-`make install` has got you covered
+# Quick setup - Installs python and node dependencies
+`$ make install`
 
-# Cleaning up compiled files
-`make clean` has got you covered
+# Manual setup
+## Installing python dependencies
+`$ sudo pip install -r requirements.txt`
+
+## Installing npm dependencies
+`$ npm install`
+
+# Clean up compiled files
+`$ make clean`
+
+# Transpiling jsx
+`$ npm run transpile`

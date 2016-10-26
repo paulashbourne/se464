@@ -31,7 +31,7 @@ class BaseDocument(Document):
                 directionPrefix = '+' if direction >= 0 else '-'
                 sorts.append(directionPrefix + fieldName)
             queryset = queryset.order_by(*sorts)
-        return queryset
+        return list(queryset)
 
     @classmethod
     def find_one(cls, query):
