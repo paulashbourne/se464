@@ -49,8 +49,9 @@ def add_education(student_id):
     student['education'].append(education['id'])
     student.save()
 
-@api.post('/job')
+@api.post('/jobs')
 def create_job():
+    print request.data
     data = ujson.loads(request.data)
     if 'job' not in data:
         # TODO: throw error
