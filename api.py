@@ -13,7 +13,7 @@ def create_employer():
         # TODO: throw error here
         pass
 
-    employer = Employer.create(request.args.get('employer'))
+    employer = Employer(**request.args.get('employer'))
     employer.save()
 
 @api.get('/employer/<employer_id>')
@@ -25,13 +25,32 @@ def get_employer(employer_id):
 
     return ujson.dumps(employer)
 
+@api.post('/student/<student_id>/experience')
+def add_experience(student_id):
+    exp_data = request.args.data
+    exp_data['student_id'] = student_id
+
+    experience = Experience(**exp_data)
+    experience.save()
+
+@api.post('/student/<student_id>/education')
+def add_education(student_id):
+    student = Student.find({ 'id' : student_id })
+
+    edu = request.args.data
+    education = Education(**edu)
+    education.save()
+
+    student['education'].append(education['id'])
+    student.save()
+
 @api.post('/job')
 def create_job():
     if 'job' not in request.args:
         # TODO: throw error
         pass
 
-    job = Job.create(request.args.get('job'))
+    job = Job(**request.args.get('job'))
     job.save()
 
 @api.get('/jobs')
