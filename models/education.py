@@ -6,6 +6,8 @@ class Education(f.EmbeddedDocument):
         'collection'        : 'education',
     }
 
+    _id = f.ObjectIdField( required=True, default=lambda: ObjectId() )
+
     school     = f.StringField()
     degree     = f.StringField()
     major      = f.StringField()
@@ -14,7 +16,7 @@ class Education(f.EmbeddedDocument):
 
     def to_dict(self):
         return {
-            'id': self.id,
+            'id': str(self._id),
             'school': self.school,
             'degree': self.degree,
             'major': self.major

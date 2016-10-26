@@ -3,6 +3,7 @@ from core.flaskwrap import Blueprint
 from models import Experience
 from models import Employer
 from models import Job
+from models import Student
 from models import Application
 
 web = Blueprint('web', __name__)
@@ -21,13 +22,12 @@ def job_search():
 
 @web.get('/student/<student_id>/resume')
 def student_resume(student_id):
-    student_info = {
-        'student_id': student_id,
-        'experience': map(lambda e: e.to_dict(), Experience.objects(student_id=student_id)),
-        'education': []
-    }
+    students = Student.objects(id=student_id)
+    for student in students:
+        student_info = student.to_dict()
+        return render_template('student_resume.html', student_info=student_info)
 
-    return render_template('student_resume.html', student_info=student_info)
+    return render_template('pages/404.html')
 
 
 @web.get('/employer/<employer_id>/new_job')
