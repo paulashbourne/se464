@@ -1,4 +1,4 @@
-## Getting set up
+# Getting set up
 
 Make sure you have mongo installed and running
 
