@@ -14,7 +14,7 @@ class EmployerInfo extends React.Component {
   }
 
   render() {
-
+  	console.log(this.props.employer_info[0]);
     return (
 
       <div className="row">
@@ -30,19 +30,19 @@ class EmployerInfo extends React.Component {
             <div className="col-md-2 secondary-header">
               Name
              </div>
-             <div className="mb20 full-width">{this.props.employer_info.name}</div>
+             <div className="mb20 full-width primary-header">{this.props.employer_info[0].company_name}</div>
             <div className="col-md-2 secondary-header">
               E-mail
              </div>
-             <div className="mb20 full-width">{this.props.employer_info.email}</div>
+             <div className="mb20 full-width primary-header">{this.props.employer_info[0].emails}</div>
             <div className="col-md-2 secondary-header">
               Website
              </div>
-             <div className="mb20 full-width">{this.props.employer_info.website}</div>
+             <div className="mb20 full-width primary-header">{this.props.employer_info[0].website}</div>
             <div className="col-md-2 secondary-header">
               Description
              </div>
-             <div className="mb20 full-width">{this.props.employer_info.description}</div>
+             <div className="mb20 full-width primary-header">{this.props.employer_info[0].description}</div>
           </div>
         </div>
       </div>
