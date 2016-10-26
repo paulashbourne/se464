@@ -1,6 +1,6 @@
 class NewJobForm extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
   }
 
   createJob() {
@@ -10,13 +10,13 @@ class NewJobForm extends React.Component {
     var numOpenings = $('#openings-input').val();
     var jobLocation = $('#location-input').val();
     var jobDescription = $('#description-input').val();
-    var postData = {employer_id: 1, 
-                    position: jobTitle, 
-                    description: jobDescription, 
-                    location: jobLocation,   
+    var postData = {employer_id: window.pageData.employerId,
+                    position: jobTitle,
+                    description: jobDescription,
+                    location: jobLocation,
                     openings: numOpenings };
     console.log(postData);
-    $.post('/api/jobs' , JSON.stringify(postData) , function() {
+    $.post('/api/jobs' , postData , function() {
         console.log("Added Job!");
       });
   }

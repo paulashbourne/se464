@@ -50,13 +50,9 @@ def add_education(student_id):
 
 @api.post('/jobs')
 def create_job():
-    print request.data
-    data = ujson.loads(request.data)
-    if 'job' not in data:
-        # TODO: throw error
-        pass
-
-    job = Job(**data.get('job'))
+    print request.form.to_dict()
+    data = request.form.to_dict()
+    job = Job(**data)
     job.save()
     return ujson.dumps(job.to_dict())
 

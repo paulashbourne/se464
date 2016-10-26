@@ -7,5 +7,8 @@
 {% block content %}
 <div id="react-placeholder">
 
+<script>
+window.pageData.employerId = {{ employer_id |tojson|safe }};
+</script>
 <script src="/static/js/new_job_posting.js"></script>
 {% endblock %}
