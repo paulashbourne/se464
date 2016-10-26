@@ -18,7 +18,7 @@ def create_employer():
 
 @api.get('/employer/<employer_id>')
 def get_employer(employer_id):
-    employer = Employer.find_by({ 'id' : employer_id })
+    employer = Employer.find({ 'id' : employer_id })
     if employer is None:
         # TODO: throw error here
         pass

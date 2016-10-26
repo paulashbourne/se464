@@ -11,6 +11,30 @@ class BaseDocument(Document):
     def dict_include(cls):
         return []
 
+    @classmethod
+    def find(cls, query):
+        return cls.objects(__raw__ = query)
+
+    @classmethod
+    def find_one(cls, query):
+        result = cls.find(query).limit(1)
+        if len(result):
+            return result[0]
+        else:
+            return None
+
+    @classmethod
+    def by_id(cls, id):
+        return cls.find_one({'_id' : id})
+
+    @classmethod
+    def by_ids(cls, ids):
+        return cls.find({'_id' : {'$in' : ids}})
+
+    @classmethod
+    def by_ids_dict(cls, ids):
+        return dict([(c.id, c) for c in cls.by_ids(ids)])
+
     # _seen is used to store list of objects which this
     # method is called on in the recursion tree.
     # This is to prevent circular recursion over relationships.
@@ -57,27 +81,8 @@ class BaseDocument(Document):
         return BaseDocument.get_key(self, key)
 
     @classmethod
-    def by_id(cls, id):
-        return cls.find_one({'_id' : id})
-
-    @classmethod
-    def by_ids(cls, ids):
-        return cls.find({'_id' : {'$in' : ids}})
-
-    @classmethod
-    def by_ids_dict(cls, ids):
-        return dict([(c.id, c) for c in cls.by_ids(ids)])
-
-    @classmethod
     def validate_fields(cls, fields):
         return True, ""
-
-    @classmethod
-    def validate(cls, fields):
-        return cls.validate_fields(fields)
-
-    def validate_update(self, updates):
-        return self.validate_fields(updates)
 
     def __repr__(self):
         return "<%s(id='%s')>" % (
