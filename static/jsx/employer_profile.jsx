@@ -1,22 +1,20 @@
 
-var EmployerProfile = React.createClass({
-  render: function() {
-    return (
-      <div className="container">
-        <EmployerInfo />
-        <EmployerListings />
-      </div>
-    );
-  }
-});
 
 
 class EmployerInfo extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
+    /*var that = this;
+    $.get('/api/employer/' + window.pageData.employerId, function(results) {
+      that.setState({'employer_info': $.parseJSON(results)});
+      console.log("done");
+    });*/
+    
+    //console.log(that.state.employer_info); 
   }
 
   render() {
+
     return (
 
       <div className="row">
@@ -32,7 +30,7 @@ class EmployerInfo extends React.Component {
             <div className="col-md-2 secondary-header">
               Name
              </div>
-             <div className="mb20 full-width">this.props.employer.name</div>
+             <div className="mb20 full-width">{this.props.employer_info.name}</div>
             <div className="col-md-2 secondary-header">
               E-mail
              </div>
@@ -70,7 +68,7 @@ class EmployerListings extends React.Component {
         </div>
         <div className="row mb20">
           <div className="col-md-offset-2 col-md-8">
-            { results }
+            test
           </div>
         </div>
       </div>
@@ -78,7 +76,20 @@ class EmployerListings extends React.Component {
   }
 }
 
+
+var EmployerProfile = React.createClass({
+  render: function() {
+    return (
+      <div className="container">
+        <EmployerInfo employer_info={this.props.employer_info} />
+        <EmployerListings />
+      </div>
+    );
+  }
+});
+
+
 ReactDOM.render(
-    <EmployerProfile />,
+    <EmployerProfile employer_info = {window.pageData.employerInfo} />,
     document.getElementById('react-placeholder')
     );
