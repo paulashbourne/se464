@@ -31,7 +31,7 @@ Create the `~/data/db` folder if necessary:
 $ mkdir -p ~/data/db
 ```
 
-Start the API Server:
+Start the server:
 ```
 $ python app.py
 ```
@@ -41,7 +41,7 @@ If you need the frontend, you also need to transpile `.jsx` files:
 $ npm run transpile
 ```
 
-# Miscellanious
+# Miscellaneous
 ## Clean up compiled files
 ```
 $ make clean
