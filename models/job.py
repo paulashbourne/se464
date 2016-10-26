@@ -3,7 +3,10 @@ from .base import BaseDocument
 from models import Employer
 
 class Job(BaseDocument):
-    meta = {'collection': 'jobs'}
+    meta = {
+        'allow_inheritance' : False,
+        'collection'        : 'job',
+    }
 
     employer_id = f.ObjectIdField(required = True)
     position    = f.StringField(required = True)

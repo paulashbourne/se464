@@ -2,6 +2,11 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Student(BaseDocument):
+    meta = {
+        'allow_inheritance' : False,
+        'collection'        : 'student',
+    }
+
     name = f.StringField(required = True)
 
     # List of Education.id's

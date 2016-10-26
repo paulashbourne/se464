@@ -2,6 +2,11 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Application(BaseDocument):
+    meta = {
+        'allow_inheritance' : False,
+        'collection'        : 'application',
+    }
+
     job_id     = f.ObjectIdField(required = True)
     student_id = f.ObjectIdField(required = True)
 

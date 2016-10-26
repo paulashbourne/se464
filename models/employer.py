@@ -2,7 +2,11 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Employer(BaseDocument):
-    meta = {'collection': 'employers'}
+    meta = {
+        'allow_inheritance' : False,
+        'collection'        : 'employer',
+    }
+
 
     company_name = f.StringField(required = True, unique = True)
     website      = f.StringField()

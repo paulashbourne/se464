@@ -2,6 +2,11 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Education(BaseDocument):
+    meta = {
+        'allow_inheritance' : False,
+        'collection'        : 'education',
+    }
+
     school     = f.StringField()
     degree     = f.StringField()
     major      = f.StringField()

@@ -2,6 +2,11 @@ from mongoengine import fields as f
 from .base import BaseDocument
 
 class Experience(BaseDocument):
+    meta = {
+        'allow_inheritance' : False,
+        'collection'        : 'experience',
+    }
+
     student_id = f.ObjectIdField(required = True)
 
     title      = f.StringField(required = True)
