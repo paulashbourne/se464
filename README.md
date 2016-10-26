@@ -1,18 +1,14 @@
 ## Getting set up
 
-Make sure you have mongo installed
+Make sure you have mongo installed and running
 
 Recommended to have virtualenv installed for the Python environment
 
-To transpile jsx, run
-
-npm install babel-preset-es2015 babel-preset-react -g
-babel --presets es2015,react --watch jsx/ --out-dir js/
-
-Then you can serve it from the static directory
-
 # Quick setup - Installs python and node dependencies
 `$ make install`
+
+# Transpiling jsx
+`$ npm run transpile`
 
 # Manual setup
 ## Installing python dependencies
@@ -23,6 +19,3 @@ Then you can serve it from the static directory
 
 # Clean up compiled files
 `$ make clean`
-
-# Transpiling jsx
-`$ npm run transpile`
