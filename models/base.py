@@ -1,4 +1,5 @@
 from mongoengine import Document
+from bson import ObjectId
 
 class BaseDocument(Document):
     meta = {'allow_inheritance': True}
@@ -77,6 +78,8 @@ class BaseDocument(Document):
             if cast:
                 if type(value) is datetime or type(value) is date:
                     return value.strftime("%s")
+                if type(value) is ObjectId:
+                    return str(value)
             return value
 
         result = {}

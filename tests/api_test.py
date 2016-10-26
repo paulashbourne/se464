@@ -61,7 +61,7 @@ class ApiTestCase(BaseTestCase):
         e.save()
 
         resp = self.app.get('/api/employer/%s' % e.id)
-        self.check_resp(resp, 200, fields)
+        self.check_resp(resp, 200, e.to_dict())
 
 if __name__ == '__main__':
     unittest.main()
