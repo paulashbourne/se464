@@ -1,8 +1,5 @@
 import flask
 
-class App(flask.Flask):
-    pass
-
 class Blueprint(flask.Blueprint):
 
     def get(self, *args, **kwargs):

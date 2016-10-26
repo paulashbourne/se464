@@ -1,21 +1,45 @@
-from core.flaskwrap import App
-import ujson
+import flask
 
-app = App(__name__)
+class Environment(object):
+    DEVELOPMENT = 'dev'
+    TESTING     = 'test'
 
-# Import and register handlers
-from web import web
-from api import api
-app.register_blueprint(web)
-app.register_blueprint(api, url_prefix='/api')
+class App(flask.Flask):
+
+    def __init__(self, environment):
+        super(App, self).__init__(__name__)
+
+        self.environment = environment
+        self.load_config()
+
+        self.register_endpoints()
+        self.connect_db()
+
+    def load_config(self):
+        from config import get_config
+        config = get_config(self.environment)
+        self.config.from_object(config)
+
+    def register_endpoints(self):
+        # Import and register handlers
+        from web import web
+        from api import api
+        self.register_blueprint(web)
+        self.register_blueprint(api, url_prefix='/api')
+
+    def connect_db(self):
+        import mongoengine
+        mongoengine.connect(
+            self.config['DB_NAME'],
+            host     = self.config['DB_HOST'],
+            port     = self.config['DB_PASSWORD'],
+            username = self.config['DB_USER'],
+            password = self.config['DB_PASSWORD'],
+        )
 
 def main():
-
-    # Connect to the database
-    from core.db import connect_db
-    connect_db()
-
     # Listen for incoming connections
+    app = App('dev')
     app.run()
 
 if __name__ == "__main__":

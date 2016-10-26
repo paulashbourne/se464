@@ -1,11 +1,11 @@
-from core.db import connect_db
+from app import App, Environment
 
 class Script(object):
 
     description = "Some Script"
 
     def __init__(self, **kwargs):
-        connect_db()
+        self.app = App(Environment.DEVELOPMENT)
 
     def run(self):
         # Should be defined in the script
