@@ -10,7 +10,8 @@ class Student(BaseDocument):
     # i.e. Python, Flask, React, etc.
     skills = f.ListField(f.StringField())
 
-    def to_dict(self):
-        return {
-            'name' : self.name
-        }
+    @classmethod
+    def dict_include(cls):
+        return [
+            'name'
+        ]
