@@ -4,4 +4,4 @@ install:
 
 clean:
 	find . -name "*.pyc" -exec rm -rf {} \;
-	rm -rf static/js
+	rm -rf static/js npm-debug.log static/npm-debug.log
