@@ -1,4 +1,4 @@
-from mongoengine import Document
+from mongoengine import Document, EmbeddedDocument
 from bson import ObjectId
 
 class BaseDocument(Document):
