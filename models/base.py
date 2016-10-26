@@ -12,12 +12,22 @@ class BaseDocument(Document):
         return []
 
     @classmethod
-    def find(cls, query):
-        return cls.objects(__raw__ = query)
+    def find(cls, query, limit=None, offset=None, sort=None):
+        queryset = cls.objects.filter(__raw__ = query)
+        if offset is not None:
+            queryset = queryset.skip(offset)
+        if limit is not None:
+            queryset = queryset.limit(limit)
+        if sort is not None:
+            sorts = []
+            for fieldName, direction in sort:
+                directionPrefix = '+' if direction >= 0 else '-'
+                sorts.append(directionPrefix + fieldName)
+        return queryset
 
     @classmethod
     def find_one(cls, query):
-        result = cls.find(query).limit(1)
+        result = cls.find(query, limit=1)
         if len(result):
             return result[0]
         else:
