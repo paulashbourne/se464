@@ -34,15 +34,15 @@ class EmployerInfo extends React.Component {
             <div className="col-md-2 secondary-header">
               E-mail
              </div>
-             <div className="mb20 full-width">this.props.employer.email</div>
+             <div className="mb20 full-width">{this.props.employer_info.email}</div>
             <div className="col-md-2 secondary-header">
               Website
              </div>
-             <div className="mb20 full-width">this.props.employer.website</div>
+             <div className="mb20 full-width">{this.props.employer_info.website}</div>
             <div className="col-md-2 secondary-header">
               Description
              </div>
-             <div className="mb20 full-width">this.props.employer.description</div>
+             <div className="mb20 full-width">{this.props.employer_info.description}</div>
           </div>
         </div>
       </div>
