@@ -13,6 +13,8 @@ class App(flask.Flask):
         self.load_config()
 
         self.register_endpoints()
+
+        self.db = None
         self.connect_db()
 
     def load_config(self):
@@ -29,7 +31,7 @@ class App(flask.Flask):
 
     def connect_db(self):
         import mongoengine
-        mongoengine.connect(
+        self.db = mongoengine.connect(
             self.config['DB_NAME'],
             host     = self.config['DB_HOST'],
             port     = self.config['DB_PASSWORD'],
