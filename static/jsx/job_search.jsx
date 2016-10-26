@@ -11,13 +11,11 @@ var JobPosting = React.createClass({
     console.log("Applying to " + this.props.job.job_id);
     var that = this;
     $.post('/api/apply/' + studentId + '/' + this.props.job.job_id, function() {
-      console.log("Applied");
       that.setState({applied: true});
     });
   },
 
   render: function() {
-    console.log(this.state);
     var buttonText = this.state.applied ? "Applied" : "Apply";
     return (
       <div className="row job-posting">
@@ -30,7 +28,7 @@ var JobPosting = React.createClass({
           </div>
         </div>
         <div className="col-md-4">
-          <button type="button" onClick={this.apply}>{buttonText}</button>
+          <button disabled={this.state.applied} type="button" onClick={this.apply}>{buttonText}</button>
         </div>
       </div>
     );
