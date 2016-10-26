@@ -50,12 +50,11 @@ class ApiTestCase(BaseTestCase):
     def test_get_employer(self):
         # First, create employer
         from models.employer import Employer
-        fields = {
-            'company_name' : 'Foobar',
-            'website'      : 'www.hello.com',
-            'emails'       : []
-        }
-        e = Employer(**fields)
+        e = Employer(
+            company_name = 'Foobar',
+            website      = 'www.hello.com',
+            emails       = []
+        )
         e.save()
 
         resp = self.app.get('/api/employer/%s' % e.id)
@@ -65,32 +64,27 @@ class ApiTestCase(BaseTestCase):
         from models.employer import Employer
         from models.job import Job
 
-        employer_fields = {
-            'company_name' : 'Barfoo',
-            'website'      : 'www.goodbye.com',
-            'emails'       : []
-        }
-        e = Employer(**employer_fields)
+        e = Employer(
+            company_name = 'Barfoo',
+            website      = 'www.goodbye.com',
+            emails       = []
+        )
         e.save()
 
-        fields1 = {
-            'employer_id'   : e.id,
-            'position'      : 'Software Engineer Intern',
-            'description'   : 'Develop stuff.',
-            'location'      : 'New York',
-            'openings'      : 3
-        }
-
-        fields2 = {
-            'employer_id'   : e.id,
-            'position'      : 'Developer Intern',
-            'description'   : 'Develop more stuff',
-            'location'      : 'San Francisco',
-            'openings'      : 1
-        }
-
-        job1 = Job(**fields1)
-        job2 = Job(**fields2)
+        job1 = Job(
+            employer_id   = e.id,
+            position      = 'Software Engineer Intern',
+            description   = 'Develop stuff.',
+            location      = 'New York',
+            openings      = 3
+        )
+        job2 = Job(
+            employer_id   = e.id,
+            position      = 'Developer Intern',
+            description   = 'Develop more stuff',
+            location      = 'San Francisco',
+            openings      = 1
+        )
         job1.save()
         job2.save()
 

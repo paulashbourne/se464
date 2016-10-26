@@ -11,7 +11,6 @@ api = Blueprint('api', __name__)
 @api.post('/employer')
 def create_employer():
     data = ujson.loads(request.data)
-    print data
     if 'employer' not in data:
         # TODO: throw error here
         pass
@@ -97,13 +96,10 @@ def get_jobs():
         _dict['application'] = apps_by_job_id.get(str(job.id))
         result.append(_dict)
 
-    print result
     return ujson.dumps(result)
 
 @api.post('/apply/<student_id>/<job_id>')
 def apply(student_id, job_id):
-    print student_id
-    print job_id
     application = Application(
         student_id = ObjectId(student_id),
         job_id     = ObjectId(job_id)
