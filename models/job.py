@@ -1,6 +1,7 @@
 from mongoengine import fields as f
 from .base import BaseDocument
 from models import Employer
+from models import Application
 
 class Job(BaseDocument):
     meta = {
@@ -23,5 +24,6 @@ class Job(BaseDocument):
             'position': self.position,
             'description': self.description,
             'location': self.location,
-            'openings': self.openings
+            'openings': self.openings,
+            'applications': map(lambda app: app.to_dict(), Application.objects(job_id=self.id))
         }

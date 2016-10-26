@@ -2,6 +2,8 @@ from flask import render_template
 from core.flaskwrap import Blueprint
 from models import Experience
 from models import Employer
+from models import Job
+from models import Application
 
 web = Blueprint('web', __name__)
 
@@ -37,7 +39,9 @@ def employer_profile(employer_id):
 
     employer_info = map(lambda e: e.to_dict(), Employer.objects(id=employer_id))
 
-    return render_template('employer_profile.html', employer_info=employer_info)
+    jobs = map(lambda job: job.to_dict(), Job.objects(employer_id=employer_id))
+
+    return render_template('employer_profile.html', employer_info=employer_info, jobs=jobs)
 
 @web.get('/employer/new_profile')
 def new_employer_profile():

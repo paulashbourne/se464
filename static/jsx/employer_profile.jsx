@@ -1,6 +1,3 @@
-
-
-
 class EmployerInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +6,6 @@ class EmployerInfo extends React.Component {
       that.setState({'employer_info': $.parseJSON(results)});
       console.log("done");
     });*/
-    
     //console.log(that.state.employer_info); 
   }
 

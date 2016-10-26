@@ -9,6 +9,7 @@
 
 <script>
 window.pageData.employerInfo = {{ employer_info |tojson|safe }};
+window.pageData.jobs = {{ jobs |tojson|safe }};
 </script>
 <script src="/static/js/employer_profile.js"></script>
 {% endblock %}
