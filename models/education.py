@@ -1,12 +1,7 @@
 from mongoengine import fields as f
+from .base import EmbeddedDocument
 
-class Education(f.EmbeddedDocument):
-    meta = {
-        'allow_inheritance' : False,
-        'collection'        : 'education',
-    }
-
-    _id = f.ObjectIdField( required=True, default=lambda: ObjectId() )
+class Education(EmbeddedDocument):
 
     school     = f.StringField()
     degree     = f.StringField()
@@ -16,9 +11,8 @@ class Education(f.EmbeddedDocument):
 
     def to_dict(self):
         return {
-            'id': str(self._id),
-            'school': self.school,
-            'degree': self.degree,
-            'major': self.major
+            'school' : self.school,
+            'degree' : self.degree,
+            'major'  : self.major,
         }
 

@@ -1,8 +1,7 @@
 from mongoengine import fields as f
-from bson.objectid import ObjectId
+from .base import EmbeddedDocument
 
-class Experience(f.EmbeddedDocument):
-    _id = f.ObjectIdField( required=True, default=lambda: ObjectId() )
+class Experience(EmbeddedDocument):
     title      = f.StringField(required = True)
     company    = f.StringField(required = True)
     location   = f.StringField()
@@ -14,10 +13,9 @@ class Experience(f.EmbeddedDocument):
 
     def to_dict(self):
         return {
-            'id': str(self._id),
-            'title': self.title,
-            'company': self.company,
-            'location': self.location,
-            'description': self.description
+            'title'       : self.title,
+            'company'     : self.company,
+            'location'    : self.location,
+            'description' : self.description,
         }
 
