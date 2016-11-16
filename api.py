@@ -70,7 +70,7 @@ def add_experience(student_id):
 
     return "Not found", 404
 
-@api.post('/student/<student_id>/education')
+@api.post('/students/<student_id>/education')
 def add_education(student_id):
     student = Student.by_id(student_id)
 
@@ -129,11 +129,11 @@ def get_jobs():
 
     return ujson.dumps(result)
 
-@api.post('/jobs/apply')
-def apply():
+@api.post('/jobs/<job_id>/apply/<student_id>')
+def apply(job_id, student_id):
     data = request.json
     application = Application(
-        student_id = ObjectId(data.get('student_id')),
-        job_id     = ObjectId(data.get('job_id'))
+        job_id     = job_id,
+        student_id = student_id,
     )
     return save_model(application)
