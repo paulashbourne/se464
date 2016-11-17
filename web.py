@@ -24,8 +24,9 @@ def hello_world():
     return render_template('hello.html')
 
 @web.get('/jobs/search')
+@student_login_required
 def job_search():
-    return render_template('job_search.html')
+    return render_template('job_search.html', student_id=str(g.user.id))
 
 @web.get('/student/<student_id>/resume')
 @student_login_required
@@ -50,7 +51,8 @@ def employer_profile(employer_id):
 
     jobs = map(lambda job: job.to_dict(), Job.objects(employer_id=employer_id))
 
-    return render_template('employer_profile.html', employer_info=employer_info, jobs=jobs)
+    return render_template('employer_profile.html',
+            employer_id=employer_id, employer_info=employer_info, jobs=jobs)
 
 @web.get('/employer/new_profile')
 @employer_login_required
