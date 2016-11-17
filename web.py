@@ -57,52 +57,34 @@ def employer_profile(employer_id):
 def new_employer_profile():
     return render_template('new_employer_profile.html')
 
-@web.route('/employers/login', methods=['GET', 'POST'])
-def employer_login():
-    if session.get('employer_id'):
-        return redirect(url_for('.employer_profile',
-            employer_id=session['employer_id']))
+def model_login(model, session_id, next_url):
+    if session.get(session_id):
+        return redirect(url_for(next_url), **{session_id: model_id})
 
     if request.method == 'GET':
         return render_template('login.html')
 
+    session.clear()
     data = request.form
     email = data.get('email')
     password = data.get('password').encode('utf-8')
 
     try:
-        employer = Employer.objects.get(email=email)
+        model_instance = model.objects.get(email=email)
     except DoesNotExist:
         return render_template('login.html')
 
-    if bcrypt.checkpw(password, employer.password.encode('utf-8')):
-        employer_id = str(employer.id)
-        session['employer_id'] = employer_id
-        return redirect(url_for('.employer_profile', employer_id=employer_id))
+    if bcrypt.checkpw(password, model_instance.password.encode('utf-8')):
+        model_id = str(model_instance.id)
+        session[session_id] = model_id
+        return redirect(url_for(next_url, **{session_id: model_id}))
 
     return render_template('login.html')
 
+@web.route('/employers/login', methods=['GET', 'POST'])
+def employer_login():
+    return model_login(Employer, 'employer_id', '.employer_profile')
+
 @web.route('/students/login', methods=['GET', 'POST'])
 def student_login():
-    if session.get('student_id'):
-        return redirect(url_for('.student_resume',
-            student_id=session['student_id']))
-
-    if request.method == 'GET':
-        return render_template('student_login.html')
-
-    data = request.form
-    email = data.get('email')
-    password = data.get('password').encode('utf-8')
-
-    try:
-        student = Student.objects.get(email=email)
-    except DoesNotExist:
-        return render_template('student_login.html')
-
-    if bcrypt.checkpw(password, student.password.encode('utf-8')):
-        student_id = str(student.id)
-        session['student_id'] = student_id
-        return redirect(url_for('.student_resume', student_id=student_id))
-
-    return render_template('student_login.html')
+    return model_login(Student, 'student_id', '.student_resume')
