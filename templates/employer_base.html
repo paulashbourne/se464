@@ -9,13 +9,13 @@
 
     <ul class="nav navbar-nav navbar-right">
       <li>
-        <a href="/jobs/search">Job Search</a>
+        <a href="/employer/{{ employer_id }}/new_job">New Posting</a>
       </li>
       <li>
-        <a href="/student/{{ student_id }}/resume">Resume</a>
+        <a href="/employer/{{ employer_id }}/profile">Profile</a>
       </li>
       <li>
-        <form action="/students/logout" method="post">
+        <form action="/employers/logout" method="post">
           <button class="btn btn-default navbar-btn" href="#">Logout</a>
         </form>
       </li>

@@ -9,15 +9,17 @@ def before_request_handler():
         for employer in employers:
             g.user = employer
             g.employer = True
+            g.student = False
     elif 'student_id' in session:
         students = Student.objects(id=session['student_id'])
         for student in students:
             g.user = student
             g.student = True
+            g.employer = False
     else:
         g.employer = False
         g.student = False
-
+        g.user = False
 
 def student_login_required(f):
     @wraps(f)
