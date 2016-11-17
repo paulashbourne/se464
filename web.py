@@ -5,6 +5,7 @@ from models import Employer
 from models import Job
 from models import Student
 from models import Application
+from auth import student_login_required, employer_login_required
 
 web = Blueprint('web', __name__)
 
@@ -31,6 +32,7 @@ def student_resume(student_id):
 
 
 @web.get('/employer/<employer_id>/new_job')
+@employer_login_required
 def new_job_posting(employer_id):
     return render_template('new_job_posting.html', employer_id=employer_id)
 
@@ -47,3 +49,10 @@ def employer_profile(employer_id):
 def new_employer_profile():
     return render_template('new_employer_profile.html')
 
+@web.get('/employers/login')
+def employer_login():
+    return 'Employer login page'
+
+@web.get('/students/login')
+def student_login():
+    return 'Employer login page'
