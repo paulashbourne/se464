@@ -1,4 +1,5 @@
 import flask
+import auth
 
 class Environment(object):
     DEVELOPMENT = 'dev'
@@ -16,6 +17,8 @@ class App(flask.Flask):
 
         self.db = None
         self.connect_db()
+        self.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+        self.before_request(auth.before_request_handler)
 
     def load_config(self):
         from config import get_config
