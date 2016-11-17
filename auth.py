@@ -1,6 +1,7 @@
 from flask import g, session, redirect, url_for, request
 from functools import wraps
 from random import randint
+from models import Employer, Student
 
 def before_request_handler():
     if 'employer_id' in session:
