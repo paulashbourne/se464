@@ -6,18 +6,22 @@ from models.employer import Employer
 from models.experience import Experience
 from models.job import Job
 from models.student import Student
+import bcrypt
+from random import choice
 
 class SeedScript(Script):
 
     description = "Seed Script"
 
     def run(self):
+        Employer.objects.delete()
         employers = self.get_employers()
         for e in employers:
             print "Creating employer %s" % e
             employer = Employer(**e) 
             employer.save()
 
+        Student.objects.delete()
         students = self.get_students()
 
         experiences = self.get_experiences()
@@ -25,9 +29,14 @@ class SeedScript(Script):
             experience_list = experiences[i]
             s = students[i]
             for e in experience_list:
-                e['student_id'] = s['id']
-                experience = Experience(**e)
-                experience.save()
+                s.experience = [Experience(**e)]
+                s.save()
+
+        educations = self.get_educations()
+        for s in students:
+            education = choice(educations)
+            s.education = [Education(**education)]
+            s.save()
 
         employers = Employer.find({}) 
         jobs = self.get_jobs()
@@ -51,7 +60,9 @@ class SeedScript(Script):
                     'recruiter_1@uber.com',
                     'recruiter_2@uber.com',
                     'recruiter_3@uber.com'
-                ]
+                ],
+                'email'         : 'waterloo@uber.com',
+                'password'      : bcrypt.hashpw('uber', bcrypt.gensalt())
             },
             {
                 'company_name'  : 'Facebook',
@@ -60,30 +71,38 @@ class SeedScript(Script):
                     'recruiter_1@facebook.com',
                     'recruiter_2@facebook.com',
                     'recruiter_3@facebook.com'
-                ]
+                ],
+                'email'         : 'waterloo@facebook.com',
+                'password'      : bcrypt.hashpw('facebook', bcrypt.gensalt())
             },
             {
                 'company_name'  : 'Google',
                 'website'       : 'google.com',
                 'emails'        : [
                     'recruiter_1@google.com'
-                ]
+                ],
+                'email'         : 'waterloo@google.com',
+                'password'      : bcrypt.hashpw('google', bcrypt.gensalt())
             },
             {
                 'company_name'  : 'Wish',
                 'website'       : 'wish.com',
-                'emails'        : []
+                'emails'        : [],
+                'email'         : 'waterloo@wish.com',
+                'password'      : bcrypt.hashpw('wish', bcrypt.gensalt())
             },
             {
                 'company_name'  : 'Snapchat',
                 'website'       : 'snapchat.com',
                 'emails'        : [
                     'recruiter_1@snapchat.com'
-                ]
+                ],
+                'email'         : 'waterloo@snapchat.com',
+                'password'      : bcrypt.hashpw('snapchat', bcrypt.gensalt())
             }
         ] 
 
-    def get_education_ids(self):
+    def get_educations(self):
         educations = [
             {
                 'school'     :   'University of Waterloo',
@@ -106,13 +125,9 @@ class SeedScript(Script):
                 'start_time' :   datetime.strptime("1 Sep 14", "%d %b %y"),
                 'end_time'   :   datetime.strptime("1 Aug 19", "%d %b %y")
             }
-        ] 
+        ]
 
-        for e in educations:
-            education = Education(**e)
-            education.save()
-
-        return Education.find({})
+        return educations
 
     def get_experiences(self):
         return [
@@ -182,27 +197,26 @@ class SeedScript(Script):
 
     def get_students(self):
         student_info = [
-            ('Luke Skywalker', ['Python', 'Django', 'Postgres']),
-            ('Darth Vader', ['Android', 'iOS', 'Java', 'Objective-C']),
-            ('Thomas The Tankengine', ['Ruby', 'Rails'])
+            ('Luke Skywalker', ['Python', 'Django', 'Postgres'], 'luke@uwaterloo.ca'),
+            ('Darth Vader', ['Android', 'iOS', 'Java', 'Objective-C'], 'darth@uwaterloo.ca'),
+            ('Thomas The Tankengine', ['Ruby', 'Rails'], 'thomas@uwaterloo.ca')
         ]
-        
-        education_ids = self.get_education_ids()
 
         for i in range(len(student_info)):
             info = student_info[i]
-            ed_id = education_ids[i]
             print "Getting students. Name: %s" % info[0]
             student_dict = {
                 'name'      :   info[0],
                 'skills'    :   info[1],
-                'education' :   [ed_id['id']]
+                'email'     :   info[2],
+                'password'  :   bcrypt.hashpw('password', bcrypt.gensalt())
+
             }
             student = Student(**student_dict)
             student.save()
 
         return Student.find({})
-        
+
     def get_jobs(self):
         return [
             {

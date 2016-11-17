@@ -2,8 +2,9 @@ from mongoengine import fields as f
 from .base import BaseDocument
 from models.experience import Experience
 from models.education import Education
+from models.user import User
 
-class Student(BaseDocument):
+class Student(User):
     meta = {
         'allow_inheritance' : False,
         'collection'        : 'student',

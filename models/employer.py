@@ -1,7 +1,8 @@
 from mongoengine import fields as f
 from .base import BaseDocument
+from models.user import User
 
-class Employer(BaseDocument):
+class Employer(User):
     meta = {
         'allow_inheritance' : False,
         'collection'        : 'employer',
