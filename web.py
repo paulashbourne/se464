@@ -57,13 +57,13 @@ def employer_profile(employer_id):
 def new_employer_profile():
     return render_template('new_employer_profile.html')
 
-def model_login(model, session_id, next_url):
+def model_login(model, model_name, next_url):
+    session_id = model_name + '_id'
     if session.get(session_id):
         return redirect(url_for(next_url), **{session_id: model_id})
 
     if request.method == 'GET':
-        return render_template('login.html')
-
+        return render_template('login.html', model_name=model_name)
     session.clear()
     data = request.form
     email = data.get('email')
@@ -72,19 +72,29 @@ def model_login(model, session_id, next_url):
     try:
         model_instance = model.objects.get(email=email)
     except DoesNotExist:
-        return render_template('login.html')
+        return render_template('login.html', model_name=model_name)
 
     if bcrypt.checkpw(password, model_instance.password.encode('utf-8')):
         model_id = str(model_instance.id)
         session[session_id] = model_id
         return redirect(url_for(next_url, **{session_id: model_id}))
 
-    return render_template('login.html')
+    return render_template('login.html', model_name=model_name)
 
 @web.route('/employers/login', methods=['GET', 'POST'])
 def employer_login():
-    return model_login(Employer, 'employer_id', '.employer_profile')
+    return model_login(Employer, 'employer', '.employer_profile')
 
 @web.route('/students/login', methods=['GET', 'POST'])
 def student_login():
-    return model_login(Student, 'student_id', '.student_resume')
+    return model_login(Student, 'student', '.student_resume')
+
+@web.route('/students/logout', methods=['POST'])
+def student_logout():
+    session.clear()
+    return redirect(url_for('.student_login'))
+
+@web.route('/employers/logout', methods=['POST'])
+def employer_logout():
+    session.clear()
+    return redirect(url_for('.employer_login'))

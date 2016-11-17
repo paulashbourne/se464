@@ -1,0 +1,19 @@
+{% extends "base_page.html" %}
+
+{% block navbar %}
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Waterloo Actually Works</a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <form action="/students/logout" method="post">
+          <button class="btn btn-default navbar-btn" href="#">Logout</a>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
