@@ -1,5 +1,6 @@
 import flask
 import auth
+import os
 
 class Environment(object):
     DEVELOPMENT = 'dev'
@@ -49,7 +50,8 @@ class App(flask.Flask):
 def main():
     # Listen for incoming connections
     app = App('dev')
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
 if __name__ == "__main__":
     main()
