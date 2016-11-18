@@ -1,3 +1,5 @@
+import os
+
 class BaseConfig(object):
     # General
     DEBUG       = False
@@ -26,6 +28,11 @@ class TestingConfig(BaseConfig):
     DB_NAME = 'WaterlooActuallyWorks_testing'
     DB_HOST = 'localhost'
 
+class ProductionConfig(BaseConfig):
+    # Database
+    DB_NAME = 'WaterlooActuallyWorks_production'
+    DB_HOST = os.environ.get('MONGODB_URI')
+
 def get_config(env):
     from app import Environment
 
@@ -33,5 +40,7 @@ def get_config(env):
         return DevelopmentConfig
     elif env == Environment.TESTING:
         return TestingConfig
+    elif env == Environment.PRODUCTION:
+        return ProductionConfig
     else:
         raise Exception("Unrecognized config environment")
