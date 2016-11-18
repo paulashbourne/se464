@@ -20,7 +20,13 @@ def page_forbidden(e):
     return render_template('pages/403.html')
 
 @web.get('/')
-def hello_world():
+def landing_page():
+    if session.get('employer_id'):
+        return redirect(url_for('.employer_profile',
+                employer_id=session['employer_id']))
+    if session.get('student_id'):
+        return redirect(url_for('.student_resume',
+                student_id=session['student_id']))
     return render_template('hello.html')
 
 @web.get('/jobs/search')
@@ -36,7 +42,8 @@ def student_resume(student_id):
         return redirect(url_for('.student_resume', student_id=session['student_id']))
 
     student_info = g.user.to_dict()
-    return render_template('student_resume.html', student_info=student_info)
+    return render_template('student_resume.html',
+            student_info=student_info, student_id=student_id)
 
 @web.get('/employer/<employer_id>/new_job')
 @employer_login_required

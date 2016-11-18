@@ -7,19 +7,36 @@
     <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
     <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
     <script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-      crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
     {% block head %}
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
 
     <script>
-      window.pageData = {};
+window.pageData = {};
     </script>
   </head>
   <body>
-    {% block navbar %} {% endblock %}
+    {% block navbar %}
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Waterloo Actually Works</a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="/employers/login">Employer login</a>
+          </li>
+          <li>
+            <a href="/students/login">Student login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    {% endblock %}
     <div id="content">{% block content %}{% endblock %}</div>
   </body>
 </html>

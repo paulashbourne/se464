@@ -8,9 +8,8 @@ var AddExperience = React.createClass({
                     title: jobTitle,
                     description: jobDescription,
                     location: jobLocation};
-    console.log(postData);
-    var studentId = window.pageData.studentInfo.student_id
-    $.post('/api/student/' + studentId + '/experience' , postData , function() {
+    var studentId = window.pageData.studentInfo.id;
+    $.post('/api/students/' + studentId + '/experience' , postData , function() {
         location.reload();
       });
   },
@@ -38,7 +37,9 @@ var AddExperience = React.createClass({
               </div>
               <textarea id="description-input" className="full-width"/>
           </div>
-          <button type="button" onClick={this.addExperience}>Add Experience</button>
+          <button type="button" className="btn bt-default" onClick={this.addExperience}>
+            Add Experience
+          </button>
         </div>
       </div>
     );

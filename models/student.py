@@ -22,10 +22,11 @@ class Student(User):
         return map(lambda ed: ed.to_dict(), self.education)
 
     def get_experience(self):
-        return map(lambda ex: ex.to_dict(), self.experience)
+        return map(lambda ex: ex.to_dict(), reversed(self.experience))
 
     def to_dict(self):
         return {
+            'id': str(self.id),
             'name': self.name,
             'education': self.get_education(),
             'experience': self.get_experience()

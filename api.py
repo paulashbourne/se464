@@ -59,7 +59,7 @@ def get_student(student_id):
 
 @api.post('/students/<student_id>/experience')
 def add_experience(student_id):
-    exp_data = request.json
+    exp_data = request.form.to_dict()
 
     experience = Experience(**exp_data)
     students = Student.objects(id=student_id)
