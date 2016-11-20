@@ -9,11 +9,19 @@ class Job(BaseDocument):
         'collection'        : 'job',
     }
 
+    class State():
+        APPS_AVAILABLE = "APPS_AVAILABLE"
+        APPS_CLOSED    = "APPS_CLOSED"
+        CANCELLED      = "CANCELLED"
+        FILLED         = "FILLED"
+        UNFILLED       = "UNFILLED"
+
     employer_id = f.ObjectIdField(required = True)
     position    = f.StringField(required = True)
     description = f.StringField(required = True)
     location    = f.StringField(required = True)
     openings    = f.IntField()
+    state       = f.StringField(required = True, default = State.APPS_AVAILABLE)
 
     def to_dict(self):
         employer = Employer.by_id(self.employer_id)
