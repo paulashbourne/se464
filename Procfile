@@ -1,1 +1,1 @@
-web: python app.py
+web: npm run transpile-for-prod && python app.py

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "transpile": "babel --presets es2015,react --watch static/jsx/ --out-dir static/js/"
+    "transpile": "babel --presets es2015,react --watch static/jsx/ --out-dir static/js/",
+    "transpile-for-prod": "babel --presets es2015,react static/jsx/ --out-dir static/js/"
   },
   "repository": {
     "type": "git",
