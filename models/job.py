@@ -10,11 +10,12 @@ class Job(BaseDocument):
     }
 
     class State():
-        APPS_AVAILABLE = "APPS_AVAILABLE"
-        APPS_CLOSED    = "APPS_CLOSED"
-        CANCELLED      = "CANCELLED"
-        FILLED         = "FILLED"
-        UNFILLED       = "UNFILLED"
+        APPS_AVAILABLE   = "APPS_AVAILABLE"
+        APPS_CLOSED      = "APPS_CLOSED"
+        CANCELLED        = "CANCELLED"
+        FILLED           = "FILLED"
+        UNFILLED         = "UNFILLED"
+        PARTIALLY_FILLED = "PARTIALLY_FILLED"
 
     employer_id = f.ObjectIdField(required = True)
     position    = f.StringField(required = True)
