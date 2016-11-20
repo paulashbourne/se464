@@ -6,7 +6,7 @@ from models.employer import Employer
 from models.experience import Experience
 from models.job import Job
 from models.student import Student
-import bcrypt
+from models.user import User
 from random import choice
 
 class SeedScript(Script):
@@ -62,7 +62,7 @@ class SeedScript(Script):
                     'recruiter_3@uber.com'
                 ],
                 'email'         : 'waterloo@uber.com',
-                'password'      : bcrypt.hashpw('uber', bcrypt.gensalt())
+                'password'      : User.encrypt_password('uber')
             },
             {
                 'company_name'  : 'Facebook',
@@ -73,7 +73,7 @@ class SeedScript(Script):
                     'recruiter_3@facebook.com'
                 ],
                 'email'         : 'waterloo@facebook.com',
-                'password'      : bcrypt.hashpw('facebook', bcrypt.gensalt())
+                'password'      : User.encrypt_password('facebook')
             },
             {
                 'company_name'  : 'Google',
@@ -82,14 +82,14 @@ class SeedScript(Script):
                     'recruiter_1@google.com'
                 ],
                 'email'         : 'waterloo@google.com',
-                'password'      : bcrypt.hashpw('google', bcrypt.gensalt())
+                'password'      : User.encrypt_password('google')
             },
             {
                 'company_name'  : 'Wish',
                 'website'       : 'wish.com',
                 'emails'        : [],
                 'email'         : 'waterloo@wish.com',
-                'password'      : bcrypt.hashpw('wish', bcrypt.gensalt())
+                'password'      : User.encrypt_password('wish')
             },
             {
                 'company_name'  : 'Snapchat',
@@ -98,7 +98,7 @@ class SeedScript(Script):
                     'recruiter_1@snapchat.com'
                 ],
                 'email'         : 'waterloo@snapchat.com',
-                'password'      : bcrypt.hashpw('snapchat', bcrypt.gensalt())
+                'password'      : User.encrypt_password('snapchat')
             }
         ] 
 
@@ -209,7 +209,7 @@ class SeedScript(Script):
                 'name'      :   info[0],
                 'skills'    :   info[1],
                 'email'     :   info[2],
-                'password'  :   bcrypt.hashpw('password', bcrypt.gensalt())
+                'password'  :   User.encrypt_password('password')
 
             }
             student = Student(**student_dict)
