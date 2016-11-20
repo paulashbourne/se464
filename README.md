@@ -24,15 +24,21 @@ $ npm install
 
 # Running the application
 
+## Using makefile
+```
+make local
+```
+Starts mongodb, transpiler, and server
+
+## Manually
 Make sure you have mongo running:
 ```
-$ mongod --db_path ~/data/db
+$ mongod --db_path mongo
 ```
-Create the `~/data/db` folder if necessary:
+Create the `mongo` folder if necessary:
 ```
-$ mkdir -p ~/data/db
+$ mkdir mongo
 ```
-
 Start the server:
 ```
 $ python app.py
