@@ -17,6 +17,7 @@ Thumbs.db
 ###################
 *.pyc
 static/js/*
+static/node_modules/*
 
 # npm packages #
 ################
@@ -25,3 +26,7 @@ node_modules/*
 # Logs #
 ########
 *.log
+
+# Mongo #
+#########
+mongo/*
