@@ -36,18 +36,13 @@ class App(flask.Flask):
 
     def connect_db(self):
         import mongoengine
-        if self.environment == 'prod':
-            self.db = mongoengine.connect(
-                self.config['DB_NAME'], host=self.config['DB_HOST']
-            )
-        else:
-            self.db = mongoengine.connect(
-                self.config['DB_NAME'],
-                host     = self.config['DB_HOST'],
-                port     = self.config['DB_PASSWORD'],
-                username = self.config['DB_USER'],
-                password = self.config['DB_PASSWORD'],
-            )
+        self.db = mongoengine.connect(
+            self.config['DB_NAME'],
+            host     = self.config['DB_HOST'],
+            port     = self.config['DB_PASSWORD'],
+            username = self.config['DB_USER'],
+            password = self.config['DB_PASSWORD'],
+        )
 
     def drop_db(self):
         # Clear the current database - USE WITH CAUTION
