@@ -1,5 +1,5 @@
 from datetime import datetime
-from base import Script  
+from base import Script
 from models.application import Application
 from models.education import Education
 from models.employer import Employer
@@ -18,7 +18,7 @@ class SeedScript(Script):
         employers = self.get_employers()
         for e in employers:
             print "Creating employer %s" % e
-            employer = Employer(**e) 
+            employer = Employer(**e)
             employer.save()
 
         Student.objects.delete()
@@ -38,7 +38,7 @@ class SeedScript(Script):
             s.education = [Education(**education)]
             s.save()
 
-        employers = Employer.find({}) 
+        employers = Employer.find({})
         jobs = self.get_jobs()
         for i in range(len(jobs)):
             j = jobs[i]
@@ -100,7 +100,7 @@ class SeedScript(Script):
                 'email'         : 'waterloo@snapchat.com',
                 'password'      : User.encrypt_password('snapchat')
             }
-        ] 
+        ]
 
     def get_educations(self):
         educations = [
@@ -224,25 +224,25 @@ class SeedScript(Script):
                 'description' : 'Work with a great team to build cool stuff',
                 'location'    : 'Seattle',
                 'openings'    : 5
-            }, 
+            },
             {
                 'position'    : 'Mobile Engineer Intern',
                 'description' : 'Make Android and iOS applications',
                 'location'    : 'New York',
                 'openings'    : 2
-            }, 
+            },
             {
                 'position'    : 'Product Engineer Intern',
                 'description' : 'Build a product for millions',
                 'location'    : 'Palo Alto',
                 'openings'    : 3
-            }, 
+            },
             {
                 'position'    : 'Software Engineer Intern',
                 'description' : 'Develop web and backend systems for large amounts of data',
                 'location'    : 'San Francisco',
                 'openings'    : 3
-            }, 
+            },
             {
                 'position'    : 'Quality Assurance Engineer Intern',
                 'description' : 'Optimize and extend quality assurance processes',
