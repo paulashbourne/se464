@@ -94,17 +94,17 @@ class MatchScript(Script):
                     # Requeue the job that was declined
                     jobs_to_match.add(jobs_by_id[declined.job_id])
 
-        partially_matched = []
-        unmatched         = []
+        partially_filled = []
+        unfilled         = []
 
         for job in unfilled_jobs:
             if num_offers[job.id] > 0:
                 # Some offers were accepted, but not all openings were filled
-                partially_matched.append(job)
+                partially_filled.append(job)
             else:
-                unmatched.append(job)
+                unfilled.append(job)
 
-        return offers, partially_matched, unmatched
+        return offers, partially_filled, unfilled
 
     def run(self):
         # Find jobs to match
@@ -113,11 +113,37 @@ class MatchScript(Script):
         })
         job_ids = map(lambda j: j.id, jobs)
 
+        # Put jobs into dict by job_id
+        jobs_by_id = { job.id : job for job in jobs }
+
         # Find apps to each job, sorted by employer ranking
         apps = m.Application.find({
             'job_id' : { '$in' :  job_ids },
             'state' : m.Application.State.APPLIED,
         }, sort = [('employer_ranking', 1)])
+
+        offers, partially_filled, unfilled = self.match_jobs(jobs, apps)
+
+        # Update app objects
+        # Use set for constant time lookup
+        matched_apps = Set(offers.values())
+        for app in apps:
+            if app in matched_apps:
+                app.set(state = m.Application.State.MATCHED)
+            else:
+                app.set(state = m.Application.State.NOT_MATCHED)
+
+        # Update job objects
+        # Use sets for constant time lookup
+        partially_filled = Set(partially_filled)
+        unfilled         = Set(unfilled)
+        for job in jobs:
+            if job in partially_filled:
+                job.set(state = m.Job.State.PARTIALLY_FILLED)
+            elif job in unfilled:
+                job.set(state = m.Job.State.UNFILLED)
+            else:
+                job.set(state = m.Job.State.FILLED)
 
 if __name__ == "__main__":
     MatchScript().main()

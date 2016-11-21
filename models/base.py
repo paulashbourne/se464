@@ -57,6 +57,11 @@ class BaseDocument(Document):
     def dict_include(cls):
         return []
 
+    def set(self, **kwargs):
+        for key, value in kwargs.iteritems():
+            setattr(self, key, value)
+        self.save()
+
     # _seen is used to store list of objects which this
     # method is called on in the recursion tree.
     # This is to prevent circular recursion over relationships.
