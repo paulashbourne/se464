@@ -103,9 +103,14 @@ var Education = React.createClass({
 
 var StudentResume = React.createClass({
   render: function() {
+    var add_experience = <AddExperience />;
+    if (window.pageData.view) {
+      add_experience = null;
+    }
+
     return (
       <div className="container">
-        <AddExperience />
+        { add_experience }
         <Experience experience={this.props.student_info.experience} />
         <Education education={this.props.student_info.education} />
       </div>

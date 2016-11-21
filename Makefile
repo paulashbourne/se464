@@ -4,7 +4,7 @@ install:
 
 local:
 	mongod --dbpath mongo &
-	babel --presets es2015,react --watch static/jsx/ --out-dir static/js/ &
+	npm run transpile_watch &
 	python app.py
 
 init_data:

@@ -1,25 +1,61 @@
+class JobPosting extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      expanded: false
+    };
+  }
 
-var JobPosting = React.createClass({
-  render: function() {
-    return (
-      <div className="row job-posting">
-        <div className="col-md-8">
-          <div className="primary-header">
-            {this.props.job.position}
+  handleClick() {
+    this.setState({ expanded: !this.state.expanded });
+  }
+
+  render() {
+    var applications = <div></div>;
+
+    if (this.state.expanded) {
+      applications = this.props.job.applications.map(function(app, i) {
+        var link = "/student/" + app.student_id + "/resume/view";
+        return (
+          <div key={i}>
+            <a href={ link }>
+              Application {i + 1}
+            </a>
           </div>
-          <div className="secondary-header">
-            {this.props.job.company_name} - {this.props.job.location}
+        )
+      });
+    }
+
+    var isHidden = this.props.job.applications.length && this.state.expanded ?
+      "" : "hidden";
+
+    return (
+      <div>
+        <div className="row job-posting mb5" onClick={this.handleClick}>
+          <div className="col-md-8">
+            <div className="primary-header">
+              {this.props.job.position}
+            </div>
+            <div className="secondary-header">
+              {this.props.job.company_name} - {this.props.job.location}
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="secondary-header">
+              {this.props.job.applications.length} Applications
+            </div>
           </div>
         </div>
-        <div className="col-md-4">
-          <div className="secondary-header">
-            {this.props.job.applications.length} Applications
+        <div className={"row job-posting " + isHidden}>
+          <div className="col-md-8">
+            { applications }
           </div>
         </div>
       </div>
     );
   }
-});
+}
 
 class EmployerInfo extends React.Component {
   constructor(props) {
@@ -34,9 +70,7 @@ class EmployerInfo extends React.Component {
   }
 
   render() {
-
     return (
-
       <div className="row">
       	<div className="row mb20">
           <div className="col-md-offset-2 col-md-8">
@@ -71,17 +105,12 @@ class EmployerInfo extends React.Component {
 }
 
 class EmployerListings extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     var jobs = window.pageData.jobs.map(function(job, i) {
       return <JobPosting job={job} key={i} />;
     });
 
     return (
-
       <div className="row">
       	<div className="row mb20">
           <div className="col-md-offset-2 col-md-8">
@@ -100,9 +129,8 @@ class EmployerListings extends React.Component {
   }
 }
 
-
-var EmployerProfile = React.createClass({
-  render: function() {
+class EmployerProfile extends React.Component {
+  render() {
     return (
       <div className="container">
         <EmployerInfo employer_info={this.props.employer_info} />
@@ -110,10 +138,9 @@ var EmployerProfile = React.createClass({
       </div>
     );
   }
-});
-
+}
 
 ReactDOM.render(
-    <EmployerProfile employer_info = {window.pageData.employerInfo} />,
-    document.getElementById('react-placeholder')
-    );
+  <EmployerProfile employer_info = {window.pageData.employerInfo} />,
+  document.getElementById('react-placeholder')
+);

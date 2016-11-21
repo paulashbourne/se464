@@ -9,6 +9,11 @@
 
 <script>
   window.pageData.studentInfo = {{ student_info|tojson|safe }};
+  {% if view %}
+    window.pageData.view        = true;
+  {% else %}
+    window.pageData.view        = false;
+  {% endif %}
 </script>
 <script src="/static/js/student_resume.js"></script>
 {% endblock %}

@@ -8,6 +8,7 @@ from models import Application
 from auth import student_login_required, employer_login_required
 import bcrypt
 from mongoengine import DoesNotExist
+from mongoengine.fields import ObjectId
 
 web = Blueprint('web', __name__)
 
@@ -33,6 +34,19 @@ def landing_page():
 @student_login_required
 def job_search():
     return render_template('job_search.html', student_id=str(g.user.id))
+
+@web.get('/student/<student_id>/resume/view')
+@employer_login_required
+def employer_view_student_resume(student_id):
+    students = Student.objects(id=ObjectId(student_id))
+    student = None
+    for student in students:
+        student_info = student.to_dict()
+    if student is None:
+        return "Not found", 404
+
+    return render_template('student_resume.html',
+            student_info=student_info, student_id=student_id, view=True)
 
 @web.get('/student/<student_id>/resume')
 @student_login_required
