@@ -50,19 +50,19 @@ class EmployerInfo extends React.Component {
             <div className="col-md-2 secondary-header">
               Name
              </div>
-             <div className="mb20 full-width primary-header">{this.props.employer_info[0].company_name}</div>
+             <div className="mb20 full-width col-md-2 primary-header">{this.props.employer_info[0].company_name}</div>
             <div className="col-md-2 secondary-header">
               E-mail
              </div>
-             <div className="mb20 full-width primary-header">{this.props.employer_info[0].emails}</div>
+             <div className="mb20 full-width col-md-2 primary-header">{this.props.employer_info[0].emails.join(",  ")}</div>
             <div className="col-md-2 secondary-header">
               Website
              </div>
-             <div className="mb20 full-width primary-header">{this.props.employer_info[0].website}</div>
+             <div className="mb20 full-width col-md-2 primary-header">{this.props.employer_info[0].website}</div>
             <div className="col-md-2 secondary-header">
               Description
              </div>
-             <div className="mb20 full-width primary-header">{this.props.employer_info[0].description}</div>
+             <div className="mb20 full-width col-md-2 primary-header">{this.props.employer_info[0].description}</div>
           </div>
         </div>
       </div>
