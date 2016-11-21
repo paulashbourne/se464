@@ -1,5 +1,3 @@
-var studentId = '507f191e810c19729de860ea';
-
 var JobPosting = React.createClass({
   getInitialState: function() {
     return {
@@ -10,7 +8,7 @@ var JobPosting = React.createClass({
   apply: function() {
     console.log("Applying to " + this.props.job.job_id);
     var that = this;
-    $.post('/api/apply/' + studentId + '/' + this.props.job.job_id, function() {
+    $.post('/api/jobs/' + this.props.job.job_id + '/apply/' + window.pageData.studentId, function() {
       that.setState({applied: true});
     });
   },

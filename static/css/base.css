@@ -50,9 +50,18 @@
   margin-bottom: 20px;
 }
 
+.mb5 {
+  margin-bottom: 5px;
+}
+
 .job-posting {
   margin-bottom: 30px;
   background-color: #F0F0F0;
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
+.hidden {
+  display:none;
+}
+

@@ -7,5 +7,9 @@
 {% block content %}
 <div id="react-placeholder"></div>
 
+<script>
+  window.pageData.studentId  = "{{ student_id|string|safe }}";
+</script>
+
 <script src="/static/js/job_search.js"></script>
 {% endblock %}
