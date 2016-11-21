@@ -1,4 +1,5 @@
 import models as m
+from base import Script  
 from collections import defaultdict
 from sets import Set
 
@@ -17,10 +18,18 @@ class MatchScript(Script):
     #     not all openings were filled
     @classmethod
     def match_jobs(cls, jobs, apps):
-        # Put into dict by job_id
+        # Put jobs into dict by job_id
+        jobs_by_id = { job.id : job for job in jobs }
+
+        # Discard apps where employer or student ranking is None
+        apps = filter(
+            lambda a: a.student_ranking is not None and a.employer_ranking is not None,
+            apps)
+
+        # Put apps into dict by job_id
         apps_by_job = defaultdict(lambda: [])
         for app in apps:
-            apps_by_job[app.job_id].push(app)
+            apps_by_job[app.job_id].append(app)
 
         # dict from student id to to the app for best job for
         # which they have an offer
@@ -49,9 +58,11 @@ class MatchScript(Script):
             student_id = app.student_id
 
             # Check existing offer
-            existing = offers[student_id]
-            if existing:
-                if app.student_ranking > existing.student_ranking:
+            if student_id in offers:
+                existing = offers[student_id]
+                # Note: We compare less than because a smaller ranking
+                # is better (rank 1 is the job student wants most)
+                if app.student_ranking < existing.student_ranking:
                     # Replace offer
                     offers[student_id] = app
                     num_offers[app.job_id] += 1
@@ -70,21 +81,21 @@ class MatchScript(Script):
 
         while len(jobs_to_match):
             job = jobs_to_match.pop()
-            while job.openings < num_offers[job.id]:
+            while job.openings > num_offers[job.id]:
                 # No more apps for this job - openings were unfilled
-                if len(apps[job.id]) == 0:
+                if len(apps_by_job[job.id]) == 0:
                     unfilled_jobs.append(job)
                     break # next job
 
                 # Give offer to top-ranked student
-                top_app = apps_by_job[job.id].pop()
+                top_app = apps_by_job[job.id].pop(0)
                 declined = give_offer(top_app)
                 if declined is not None and declined != top_app:
                     # Requeue the job that was declined
-                    jobs_to_match.push(declined)
+                    jobs_to_match.add(jobs_by_id[declined.job_id])
 
-        partially_matched_ = []
-        unmatched          = []
+        partially_matched = []
+        unmatched         = []
 
         for job in unfilled_jobs:
             if num_offers[job.id] > 0:
@@ -93,7 +104,7 @@ class MatchScript(Script):
             else:
                 unmatched.append(job)
 
-        return offers, partially_matched_jobs, unmatched_jobs
+        return offers, partially_matched, unmatched
 
     def run(self):
         # Find jobs to match
@@ -105,8 +116,8 @@ class MatchScript(Script):
         # Find apps to each job, sorted by employer ranking
         apps = m.Application.find({
             'job_id' : { '$in' :  job_ids },
-            'state' : m.Application.APPLIED,
-        }, sort = ['employer_ranking', 1])
+            'state' : m.Application.State.APPLIED,
+        }, sort = [('employer_ranking', 1)])
 
 if __name__ == "__main__":
     MatchScript().main()
