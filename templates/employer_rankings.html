@@ -7,12 +7,12 @@
       <form action="/api/employers/{{ employer_id }}/rankings" method="post">
         {% for app in job.applications %}
         <div class="form-group">
-          <label>{{app.student_name}}</label>
           <select name={{app.id}} >
             {% for number in range(job.applications|count) %}
               <option>{{number + 1}}</option>
             {% endfor %}
           </select>
+          <label>{{app.student_name}}</label>
         </div>
         {% endfor %}
         <button class="btn btn-primary" type="submit">
