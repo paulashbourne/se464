@@ -4,6 +4,7 @@ from models.application import Application
 from models.employer import Employer
 from models.student import Student
 from models.experience import Experience
+from models.education import Education
 from models.job import Job
 import ujson
 from bson import ObjectId
@@ -74,12 +75,15 @@ def add_experience(student_id):
 def add_education(student_id):
     student = Student.by_id(student_id)
 
-    edu = request.args.data
+    edu = request.form.to_dict()
     education = Education(**edu)
-    education.save()
+    students = Student.objects(id=student_id)
+    for student in students:
+        student.education.append(education)
+        print student.education
+        return save_model(student)
 
-    student['education'].append(education['id'])
-    student.save()
+    return "Not found", 404
 
 @api.post('/jobs')
 def create_job():

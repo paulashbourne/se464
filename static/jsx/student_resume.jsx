@@ -46,6 +46,47 @@ var AddExperience = React.createClass({
   }
 });
 
+var AddEducation = React.createClass({
+  addEducation: function() {
+    var schoolName = $('#school-input').val();
+    var degreeName = $('#degree-input').val();
+    var majorName = $('#major-input').val();
+    var postData = {school: schoolName,
+                    degree: degreeName,
+                    major: majorName};
+    var studentId = window.pageData.studentInfo.id;
+    $.post('/api/students/' + studentId + '/education' , postData , function() {
+      });
+  },
+
+  render: function() {
+    return (
+      <div className="row mb20">
+        <div className="col-md-offset-2 col-md-8">
+          <div className="title">Add Education</div>
+          <div>
+            <div className="secondary-header">
+              School
+             </div>
+             <input id="school-input" className="full-width" />
+             <div className="secondary-header">
+               Degree
+              </div>
+              <input id="degree-input" className="full-width"/>
+             <div className="secondary-header">
+               Major
+              </div>
+              <input id="major-input" className="full-width"/>
+          </div>
+          <button type="button" className="btn bt-default" onClick={this.addEducation}>
+            Add Education
+          </button>
+        </div>
+      </div>
+    );
+  }
+});
+
 var Experience = React.createClass({
   render: function() {
     var past_experience = this.props.experience.map(function(exp, i) {
@@ -84,8 +125,8 @@ var Education = React.createClass({
     var education = this.props.education.map(function(ed, i) {
       return (
         <div key={i}>
-          <div className="primary-header">{ed.degree}</div>
-          <div className="secondary-header">{ed.school}</div>
+          <div className="primary-header">{ed.degree} - {ed.major}</div>
+          <div className="secondary-header">{ed.school}</div><br/>
         </div>
       )
     });
@@ -107,10 +148,15 @@ var StudentResume = React.createClass({
     if (window.pageData.view) {
       add_experience = null;
     }
+    var add_education = <AddEducation />;
+    if (window.pageData.view) {
+      add_education = null;
+    }
 
     return (
       <div className="container">
         { add_experience }
+        { add_education }
         <Experience experience={this.props.student_info.experience} />
         <Education education={this.props.student_info.education} />
       </div>
