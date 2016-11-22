@@ -27,7 +27,8 @@ class Application(BaseDocument):
             'student_id': str(self.student_id),
             'student_name': student.name,
             'student_ranking': self.student_ranking,
-            'employer_ranking': self.employer_ranking
+            'employer_ranking': self.employer_ranking,
+            'state': self.state
         }
 
     # To dict specifically for students
