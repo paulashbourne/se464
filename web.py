@@ -5,6 +5,7 @@ from models import Employer
 from models import Job
 from models import Student
 from models import Application
+from models.user import User
 from auth import student_login_required, employer_login_required
 import bcrypt
 from mongoengine import DoesNotExist
@@ -133,6 +134,29 @@ def employer_login():
 @web.route('/students/login', methods=['GET', 'POST'])
 def student_login():
     return model_login(Student, 'student', '.student_resume')
+    
+
+@web.route('/students/signup', methods=['GET', 'POST'])
+def student_signup():
+    if request.method == 'POST':
+        data = request.form
+        name = data.get('name')
+        email = data.get('email')
+        password = data.get('password').encode('utf-8')
+        new_student = {
+            'name'     : name,
+            'skills'   : [],
+            'email'    : email,
+            'password' : User.encrypt_password(password)
+        }
+        student = Student(**new_student)
+        student.save()
+        model_instance = Student.objects.get(email=email)
+        model_id = str(model_instance.id)
+        session_id = 'student_id'
+        return redirect(url_for('.student_resume', **{session_id: model_id}))
+
+    return render_template('signup.html')
 
 @web.route('/students/logout', methods=['POST'])
 def student_logout():
