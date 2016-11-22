@@ -226,27 +226,10 @@ class MatchTestCase(BaseTestCase):
         app_ids = map(lambda app: app.id, apps)
         db_apps = Application.by_ids(app_ids)
         for app in db_apps:
-            print "foo"
             if expected_matches[app.student_id] == app.job_id:
                 assert(app.state == Application.State.MATCHED)
             else:
                 assert(app.state == Application.State.NOT_MATCHED)
-        ## student[0] apps
-        #assert(db_apps[apps[0].id].state == Application.State.MATCHED)
-        #assert(db_apps[apps[1].id].state == Application.State.NOT_MATCHED)
-        #assert(db_apps[apps[2].id].state == Application.State.NOT_MATCHED)
-        ## student[1] apps
-        #assert(db_apps[apps[3].id].state == Application.State.NOT_MATCHED)
-        #assert(db_apps[apps[4].id].state == Application.State.MATCHED)
-        #assert(db_apps[apps[5].id].state == Application.State.NOT_MATCHED)
-        ## student[2] apps
-        #assert(db_apps[apps[6].id].state == Application.State.NOT_MATCHED)
-        #assert(db_apps[apps[7].id].state == Application.State.MATCHED)
-        #assert(db_apps[apps[8].id].state == Application.State.NOT_MATCHED)
-        ## student[3] apps
-        #assert(db_apps[apps[9].id].state == Application.State.NOT_MATCHED)
-        #assert(db_apps[apps[10].id].state == Application.State.NOT_MATCHED)
-        #assert(db_apps[apps[11].id].state == Application.State.NOT_MATCHED)
 
 if __name__ == '__main__':
     unittest.main()
