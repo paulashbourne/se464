@@ -1,7 +1,6 @@
 from mongoengine import fields as f
 from .base import BaseDocument
-from student import Student
-from job import Job
+from models.student import Student
 
 class Application(BaseDocument):
     meta = {
@@ -22,11 +21,9 @@ class Application(BaseDocument):
 
     def to_dict(self):
         student = Student.objects(id=self.student_id)[0]
-        job = Job.objects(id=self.job_id)[0]
         return {
             'id': str(self.id),
             'job_id': str(self.job_id),
-            'job': job.to_dict(),
             'student_id': str(self.student_id),
             'student_name': student.name,
             'student_ranking': self.student_ranking,
