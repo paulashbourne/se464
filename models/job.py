@@ -39,4 +39,4 @@ class Job(BaseDocument):
             _dict.update({
                 'company_name' : employer.company_name
             })
-        return update
+        return _dict
