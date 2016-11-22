@@ -1,5 +1,5 @@
 from core.flaskwrap import Blueprint
-from flask import request, g
+from flask import request, redirect, url_for, g
 from models.application import Application
 from models.employer import Employer
 from models.student import Student
@@ -95,7 +95,7 @@ def add_education(student_id):
 @api.post('/jobs')
 @employer_login_required
 def create_job():
-    data = request.json
+    data = request.form.to_dict()
     job = Job(**data)
     return save_model(job)
 
@@ -167,18 +167,22 @@ def submit_rankings(data, ranking_type):
 
     rankings = data['rankings']
     rankings_vals = rankings.values().sort()
-    increasing = all(x<y for x, y in zip(rankings_vals, rankings_vals[1:]))
-    if not increasing or rankings_vals[0] != 1:
-        return "Invalid rankings", 409
+    if len(rankings) > 1:
+        increasing = all(x<y for x, y in zip(rankings_vals, rankings_vals[1:]))
+        if not increasing or rankings_vals[0] != 1:
+            return "Invalid rankings", 409
 
-    for app_id, rank in rankings:
-        app = Application.by_id(app_id)                           
+    print rankings
+
+    for app_id in rankings:
+        rank = rankings.get(app_id)
+        app = Application.by_id(ObjectId(app_id))
         if app is None:
             return "Invalid application ID", 400
 
         app.set(**{ranking_type : rank})
 
-    return "OK", 200
+    return 200
 
 @api.post('/students/<student_id>/rankings')
 def submit_student_rankings(student_id):
@@ -189,10 +193,20 @@ def submit_student_rankings(student_id):
     return submit_rankings(request.json, 'student_ranking')
 
 @api.post('/employers/<employer_id>/rankings')
-def submit_employer_rankings(id):
-    user = Employer.by_id(id)
+def submit_employer_rankings(employer_id):
+    user = Employer.by_id(ObjectId(employer_id))
     if user is None:
         return "Invalid employer ID", 400
 
-    return submit_rankings(request.json, 'employer_ranking')
+    data = {
+        'rankings': request.form.to_dict()
+    }
+
+    rankings_result = submit_rankings(data, 'employer_ranking')
+
+    if rankings_result == 200:
+        return redirect(url_for('web.employer_rankings',
+            employer_id=employer_id))
+    else:
+        return rankings_result
 

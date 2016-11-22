@@ -22,10 +22,12 @@ class Application(BaseDocument):
     def to_dict(self):
         student = Student.objects(id=self.student_id)[0]
         return {
-            'job_id'     : str(self.job_id),
-            'student_id' : str(self.student_id),
-            'state'      : self.state,
-            'student_name': student.name
+            'id': str(self.id),
+            'job_id': str(self.job_id),
+            'student_id': str(self.student_id),
+            'student_name': student.name,
+            'student_ranking': self.student_ranking,
+            'employer_ranking': self.employer_ranking
         }
 
     # To dict specifically for students
