@@ -18,11 +18,25 @@ class Application(BaseDocument):
     student_ranking  = f.IntField(required = False, min_value = 1)
     employer_ranking = f.IntField(required = False, min_value = 1)
 
-    # Fields which should be returned in a to_dict
-    @classmethod
-    def dict_include(self):
-        return [
-            'id',
-            'job_id',
-            'student_id'
-        ]
+    def to_dict(self):
+        return {
+            job_id     : str(self.job_id),
+            student_id : str(self.student_id),
+            state      : self.state
+        }
+    
+    # To dict specifically for students
+    def to_dict_student(self):
+        _dict = self.to_dict()
+        _dict.extend({
+            'student_ranking' : student_ranking
+        })
+        return _dict
+    
+    # To dict specifically for students
+    def to_dict_employer(self):
+        _dict = self.to_dict()
+        _dict.extend({
+            'employer_ranking' : 'student_ranking'
+        })
+        return _dict

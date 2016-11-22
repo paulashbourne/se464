@@ -206,10 +206,10 @@ class SeedScript(Script):
             info = student_info[i]
             print "Getting students. Name: %s" % info[0]
             student_dict = {
-                'name'      :   info[0],
-                'skills'    :   info[1],
-                'email'     :   info[2],
-                'password'  :   User.encrypt_password('password')
+                'name'     : info[0],
+                'skills'   : info[1],
+                'email'    : info[2],
+                'password' : User.encrypt_password('password')
 
             }
             student = Student(**student_dict)
