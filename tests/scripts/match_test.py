@@ -10,7 +10,8 @@ from scripts.match import MatchScript
 
 class MatchTestCase(BaseTestCase):
 
-    def test_match_jobs(self):
+    @classmethod
+    def get_test_case(cls):
         jobs = [
             # Should be filled
             Job(
@@ -42,25 +43,33 @@ class MatchTestCase(BaseTestCase):
         ]
 
         students = [
-            # This student should get job #1
+            # This student should get job[0]
             Student(
-                id  = ObjectId(),
-                name = "John GetsMyFirstPick",
+                id       = ObjectId(),
+                name     = "John GetsMyFirstPick",
+                email    = "s0@test.com",
+                password = "passwordhash",
             ),
-            # This student should get job #2
+            # This student should get job[1]
             Student(
-                id  = ObjectId(),
-                name = "John GetsMySecondPick",
+                id       = ObjectId(),
+                name     = "John GetsMySecondPick",
+                email    = "s1@test.com",
+                password = "passwordhash",
             ),
-            # This student should get job #2
+            # This student should get job[1]
             Student(
-                id  = ObjectId(),
-                name = "John GetsAnotherJob",
+                id       = ObjectId(),
+                name     = "John GetsAnotherJob",
+                email    = "s2@test.com",
+                password = "passwordhash",
             ),
             # This student does not get matched
             Student(
-                id  = ObjectId(),
-                name = "John DoesntGetAJob",
+                id       = ObjectId(),
+                name     = "John DoesntGetAJob",
+                email    = "s3@test.com",
+                password = "passwordhash",
             )
         ]
 
@@ -92,6 +101,14 @@ class MatchTestCase(BaseTestCase):
             ),
             # student[1]'s applications
             # app to job [0]
+            # app to job [2]
+            Application(
+                id               = ObjectId(),
+                job_id           = jobs[2].id,
+                student_id       = students[1].id,
+                student_ranking  = 3,
+                employer_ranking = 1,
+            ),
             Application(
                 id               = ObjectId(),
                 job_id           = jobs[0].id,
@@ -106,14 +123,6 @@ class MatchTestCase(BaseTestCase):
                 student_id       = students[1].id,
                 student_ranking  = 2,
                 employer_ranking = 3,
-            ),
-            # app to job [2]
-            Application(
-                id               = ObjectId(),
-                job_id           = jobs[2].id,
-                student_id       = students[1].id,
-                student_ranking  = 3,
-                employer_ranking = 1,
             ),
             # student[2]'s applications
             # app to job [0]
@@ -141,14 +150,6 @@ class MatchTestCase(BaseTestCase):
                 employer_ranking = None,
             ),
             # student[3]'s applications
-            # app to job [0]
-            Application(
-                id               = ObjectId(),
-                job_id           = jobs[0].id,
-                student_id       = students[2].id,
-                student_ranking  = 2,
-                employer_ranking = 4,
-            ),
             # app to job[1]
             Application(
                 id               = ObjectId(),
@@ -156,6 +157,14 @@ class MatchTestCase(BaseTestCase):
                 student_id       = students[2].id,
                 student_ranking  = None,
                 employer_ranking = 1,
+            ),
+            # app to job [0]
+            Application(
+                id               = ObjectId(),
+                job_id           = jobs[0].id,
+                student_id       = students[2].id,
+                student_ranking  = 2,
+                employer_ranking = 4,
             ),
             # app to job [2]
             Application(
@@ -168,6 +177,12 @@ class MatchTestCase(BaseTestCase):
         ]
         # Sort apps by employer ranking (as required by function spec)
         apps = sorted(apps, key = lambda a: a.employer_ranking)
+
+        return jobs, students, apps
+
+    def test_match_jobs(self):
+
+        jobs, students, apps = self.get_test_case()
 
         offers, partially_matched, unmatched = MatchScript.match_jobs(jobs, apps)
 
@@ -183,6 +198,55 @@ class MatchTestCase(BaseTestCase):
         # Check unmatched
         assert len(unmatched) == 1, "Only job[2] should be partially unmatched!"
         assert unmatched[0].id == jobs[2].id, "Only job[2] should be unmatched!"
+
+    def test_run(self):
+        jobs, students, apps = self.get_test_case()
+
+        # Add the test objects to DB
+        for obj in jobs + students + apps:
+            obj.save()
+
+        # Run the script
+        MatchScript(app = self.app).run()
+
+        # Check job objects
+        job_ids = map(lambda job: job.id, jobs)
+        db_jobs = Job.by_ids_dict(job_ids)
+        assert(db_jobs[jobs[0].id].state == Job.State.FILLED)
+        assert(db_jobs[jobs[1].id].state == Job.State.PARTIALLY_FILLED)
+        assert(db_jobs[jobs[2].id].state == Job.State.UNFILLED)
+
+        # Check app objects
+        expected_matches = {
+            students[0].id : jobs[0].id,
+            students[1].id : jobs[1].id,
+            students[2].id : jobs[1].id,
+            students[3].id : None
+        }
+        app_ids = map(lambda app: app.id, apps)
+        db_apps = Application.by_ids(app_ids)
+        for app in db_apps:
+            print "foo"
+            if expected_matches[app.student_id] == app.job_id:
+                assert(app.state == Application.State.MATCHED)
+            else:
+                assert(app.state == Application.State.NOT_MATCHED)
+        ## student[0] apps
+        #assert(db_apps[apps[0].id].state == Application.State.MATCHED)
+        #assert(db_apps[apps[1].id].state == Application.State.NOT_MATCHED)
+        #assert(db_apps[apps[2].id].state == Application.State.NOT_MATCHED)
+        ## student[1] apps
+        #assert(db_apps[apps[3].id].state == Application.State.NOT_MATCHED)
+        #assert(db_apps[apps[4].id].state == Application.State.MATCHED)
+        #assert(db_apps[apps[5].id].state == Application.State.NOT_MATCHED)
+        ## student[2] apps
+        #assert(db_apps[apps[6].id].state == Application.State.NOT_MATCHED)
+        #assert(db_apps[apps[7].id].state == Application.State.MATCHED)
+        #assert(db_apps[apps[8].id].state == Application.State.NOT_MATCHED)
+        ## student[3] apps
+        #assert(db_apps[apps[9].id].state == Application.State.NOT_MATCHED)
+        #assert(db_apps[apps[10].id].state == Application.State.NOT_MATCHED)
+        #assert(db_apps[apps[11].id].state == Application.State.NOT_MATCHED)
 
 if __name__ == '__main__':
     unittest.main()

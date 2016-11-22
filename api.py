@@ -191,7 +191,17 @@ def submit_student_rankings(student_id):
     if user is None:
         return "Invalid student ID", 400
 
-    return submit_rankings(request.json, 'student_ranking')
+    data = {
+        'rankings': request.form.to_dict()
+    }
+
+    rankings_result = submit_rankings(data, 'student_ranking')
+
+    if rankings_result == 200:
+        return redirect(url_for('web.student_rankings',
+            student_id=student_id))
+    else:
+        return rankings_result
 
 @api.post('/employers/<employer_id>/rankings')
 def submit_employer_rankings(employer_id):
@@ -210,4 +220,3 @@ def submit_employer_rankings(employer_id):
             employer_id=employer_id))
     else:
         return rankings_result
-

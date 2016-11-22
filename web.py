@@ -61,6 +61,23 @@ def student_resume(student_id):
     return render_template('student_resume.html',
             student_info=student_info, student_id=student_id)
 
+@web.get('/student/<student_id>/rankings')
+@student_login_required
+def student_rankings(student_id):
+    applications = Application.objects(student_id=ObjectId(student_id))
+    applications = map(lambda a: a.to_dict(), applications)
+
+    for application in applications:
+        job = Job.objects(id=ObjectId(application['job_id']))[0]
+        application['job'] = job.to_dict()
+
+    print applications
+
+    return render_template('student_rankings.html',
+        student_id=student_id,
+        applications=applications
+    )
+
 @web.get('/employer/<employer_id>/rankings')
 @employer_login_required
 def employer_rankings(employer_id):

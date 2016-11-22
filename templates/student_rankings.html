@@ -1,0 +1,33 @@
+{% extends "student_base.html" %}
+
+{% block content %}
+<div class="container">
+  <h3> Rank jobs </h3>
+  <h5> Be sure to only use each number once </h5>
+  <br>
+  <br>
+  <form action="/api/students/{{ student_id }}/rankings" method="post">
+    {% for app in applications %}
+    <div class="form-group">
+      <select name={{app.id}} >
+        {% for number in range(applications|count) %}
+        {% if number + 1 == app.student_ranking %}
+        <option selected>{{number + 1}}</option>
+        {% else %}
+        <option>{{number + 1}}</option>
+        {% endif %}
+        {% endfor %}
+      </select>
+      {% if app.state == "MATCHED" %}
+        <label>{{app.job.position}} - {{app.job.company_name}} - MATCHED</label>
+      {% else %}
+        <label>{{app.job.position}} - {{app.job.company_name}}</label>
+      {% endif %}
+    </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">
+      Submit rankings
+    </button>
+  </form>
+</div>
+{% endblock %}

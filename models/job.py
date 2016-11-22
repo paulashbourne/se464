@@ -10,8 +10,7 @@ class Job(BaseDocument):
     }
 
     class State():
-        APPS_AVAILABLE   = "APPS_AVAILABLE"
-        APPS_CLOSED      = "APPS_CLOSED"
+        OPEN             = "OPEN"
         CANCELLED        = "CANCELLED"
         FILLED           = "FILLED"
         UNFILLED         = "UNFILLED"
@@ -22,7 +21,7 @@ class Job(BaseDocument):
     description = f.StringField(required = True)
     location    = f.StringField(required = True)
     openings    = f.IntField()
-    state       = f.StringField(required = True, default = State.APPS_AVAILABLE)
+    state       = f.StringField(required = True, default = State.OPEN)
 
     def to_dict(self):
         _dict = {
