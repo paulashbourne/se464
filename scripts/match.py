@@ -109,7 +109,7 @@ class MatchScript(Script):
     def run(self):
         # Find jobs to match
         jobs = m.Job.find({
-            'state' : m.Job.State.APPS_CLOSED
+            'state' : m.Job.State.OPEN
         })
         job_ids = map(lambda j: j.id, jobs)
 

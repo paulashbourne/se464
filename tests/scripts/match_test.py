@@ -10,7 +10,8 @@ from scripts.match import MatchScript
 
 class MatchTestCase(BaseTestCase):
 
-    def test_match_jobs(self):
+    @classmethod
+    def get_test_case(cls):
         jobs = [
             # Should be filled
             Job(
@@ -44,23 +45,31 @@ class MatchTestCase(BaseTestCase):
         students = [
             # This student should get job #1
             Student(
-                id  = ObjectId(),
-                name = "John GetsMyFirstPick",
+                id       = ObjectId(),
+                name     = "John GetsMyFirstPick",
+                email    = "s0@test.com",
+                password = "passwordhash",
             ),
             # This student should get job #2
             Student(
-                id  = ObjectId(),
-                name = "John GetsMySecondPick",
+                id       = ObjectId(),
+                name     = "John GetsMySecondPick",
+                email    = "s1@test.com",
+                password = "passwordhash",
             ),
             # This student should get job #2
             Student(
-                id  = ObjectId(),
-                name = "John GetsAnotherJob",
+                id       = ObjectId(),
+                name     = "John GetsAnotherJob",
+                email    = "s2@test.com",
+                password = "passwordhash",
             ),
             # This student does not get matched
             Student(
-                id  = ObjectId(),
-                name = "John DoesntGetAJob",
+                id       = ObjectId(),
+                name     = "John DoesntGetAJob",
+                email    = "s3@test.com",
+                password = "passwordhash",
             )
         ]
 
@@ -169,6 +178,12 @@ class MatchTestCase(BaseTestCase):
         # Sort apps by employer ranking (as required by function spec)
         apps = sorted(apps, key = lambda a: a.employer_ranking)
 
+        return jobs, students, apps
+
+    def test_match_jobs(self):
+
+        jobs, students, apps = self.get_test_case()
+
         offers, partially_matched, unmatched = MatchScript.match_jobs(jobs, apps)
 
         # Check offers
@@ -183,6 +198,36 @@ class MatchTestCase(BaseTestCase):
         # Check unmatched
         assert len(unmatched) == 1, "Only job[2] should be partially unmatched!"
         assert unmatched[0].id == jobs[2].id, "Only job[2] should be unmatched!"
+
+    def test_run(self):
+        jobs, students, apps = self.get_test_case()
+
+        # Add the test objects to DB
+        for obj in jobs + students + apps:
+            obj.save()
+
+        # Run the script
+        MatchScript(app = self.app).run()
+
+        # Check app objects
+        app_ids = map(lambda app: app.id, apps)
+        db_apps = Application.by_ids_dict(app_ids)
+        # student[0] apps
+        assert(db_apps[apps[0].id].state == Application.State.MATCHED)
+        assert(db_apps[apps[1].id].state == Application.State.NOT_MATCHED)
+        assert(db_apps[apps[2].id].state == Application.State.NOT_MATCHED)
+        # student[1] apps
+        assert(db_apps[apps[3].id].state == Application.State.NOT_MATCHED)
+        assert(db_apps[apps[4].id].state == Application.State.MATCHED)
+        assert(db_apps[apps[5].id].state == Application.State.NOT_MATCHED)
+        # student[2] apps
+        assert(db_apps[apps[6].id].state == Application.State.NOT_MATCHED)
+        assert(db_apps[apps[7].id].state == Application.State.MATCHED)
+        assert(db_apps[apps[8].id].state == Application.State.NOT_MATCHED)
+        # student[3] apps
+        assert(db_apps[apps[6].id].state == Application.State.NOT_MATCHED)
+        assert(db_apps[apps[7].id].state == Application.State.NOT_MATCHED)
+        assert(db_apps[apps[8].id].state == Application.State.NOT_MATCHED)
 
 if __name__ == '__main__':
     unittest.main()

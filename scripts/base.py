@@ -5,8 +5,10 @@ class Script(object):
 
     description = "Some Script"
 
-    def __init__(self, **kwargs):
-        if 'MONGODB_URI' in os.environ:
+    def __init__(self, app = None, **kwargs):
+        if app is not None:
+            self.app = app
+        elif 'MONGODB_URI' in os.environ:
             self.app = App(Environment.PRODUCTION)
         else:
             self.app = App(Environment.DEVELOPMENT)
