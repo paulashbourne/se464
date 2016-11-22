@@ -1,5 +1,6 @@
 from mongoengine import fields as f
 from .base import BaseDocument
+from student import Student
 
 class Application(BaseDocument):
     meta = {
@@ -19,12 +20,14 @@ class Application(BaseDocument):
     employer_ranking = f.IntField(required = False, min_value = 1)
 
     def to_dict(self):
+        student = Student.objects(id=self.student_id)[0]
         return {
             'job_id'     : str(self.job_id),
             'student_id' : str(self.student_id),
-            'state'      : self.state
+            'state'      : self.state,
+            'student_name': student.name
         }
-    
+
     # To dict specifically for students
     def to_dict_student(self):
         _dict = self.to_dict()
@@ -32,7 +35,7 @@ class Application(BaseDocument):
             'student_ranking' : self.student_ranking
         })
         return _dict
-    
+
     # To dict specifically for students
     def to_dict_employer(self):
         _dict = self.to_dict()
