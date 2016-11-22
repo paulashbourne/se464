@@ -10,6 +10,7 @@ import ujson
 from bson import ObjectId
 import mongoengine as me
 from auth import student_login_required, employer_login_required, login_required
+import operator
 
 api = Blueprint('api', __name__)
 
@@ -159,3 +160,39 @@ def apply(job_id, student_id):
         student_id = student_id,
     )
     return save_model(application)
+
+def submit_rankings(data, ranking_type):
+    if 'rankings' not in data:
+        return "Bad Request", 400
+
+    rankings = data['rankings']
+    rankings_vals = rankings.values().sort()
+    increasing = all(x<y for x, y in zip(rankings_vals, rankings_vals[1:]))
+    if not increasing or rankings_vals[0] != 1:
+        return "Invalid rankings", 409
+
+    for app_id, rank in rankings:
+        app = Application.by_id(app_id)                           
+        if app is None:
+            return "Invalid application ID", 400
+
+        app.set(**{ranking_type : rank})
+
+    return "OK", 200
+
+@api.post('/students/<student_id>/rankings')
+def submit_student_rankings(student_id):
+    user = Student.by_id(student_id)
+    if user is None:
+        return "Invalid student ID", 400
+
+    return submit_rankings(request.json, 'student_ranking')
+
+@api.post('/employers/<employer_id>/rankings')
+def submit_employer_rankings(id):
+    user = Employer.by_id(id)
+    if user is None:
+        return "Invalid employer ID", 400
+
+    return submit_rankings(request.json, 'employer_ranking')
+
