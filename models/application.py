@@ -20,16 +20,20 @@ class Application(BaseDocument):
     employer_ranking = f.IntField(required = False, min_value = 1)
 
     def to_dict(self):
-        student = Student.objects(id=self.student_id)[0]
-        return {
-            'id': str(self.id),
-            'job_id': str(self.job_id),
-            'student_id': str(self.student_id),
-            'student_name': student.name,
-            'student_ranking': self.student_ranking,
-            'employer_ranking': self.employer_ranking,
-            'state': self.state
+        student = Student.by_id(self.student_id)
+        _dict = {
+            'id'               : str(self.id),
+            'job_id'           : str(self.job_id),
+            'student_id'       : str(self.student_id),
+            'student_ranking'  : self.student_ranking,
+            'employer_ranking' : self.employer_ranking,
+            'state'            : self.state
         }
+        if student:
+            _dict.update({
+                'student_name' : student.name,
+            })
+        return _dict
 
     # To dict specifically for students
     def to_dict_student(self):
