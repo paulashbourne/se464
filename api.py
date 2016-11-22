@@ -31,6 +31,7 @@ def create_employer():
     return save_model(employer)
 
 @api.get('/employers/<employer_id>')
+@login_required
 def get_employer(employer_id):
     employer_id = ObjectId(employer_id)
     employers = Employer.objects(id=employer_id)
@@ -40,6 +41,7 @@ def get_employer(employer_id):
     return "Not found", 404
 
 @api.get('/employers')
+@login_required
 def get_employers():
     employers = Employer.objects()
     return ujson.dumps(models_to_dict(employers))
@@ -51,6 +53,7 @@ def create_student():
     return save_model(student)
 
 @api.get('/students/<student_id>')
+@login_required
 def get_student(student_id):
     students = Student.objects(id=student_id)
     for student in students:
@@ -59,6 +62,7 @@ def get_student(student_id):
     return "Not found", 404
 
 @api.post('/students/<student_id>/experience')
+@student_login_required
 def add_experience(student_id):
     exp_data = request.form.to_dict()
 
@@ -72,6 +76,7 @@ def add_experience(student_id):
     return "Not found", 404
 
 @api.post('/students/<student_id>/education')
+@student_login_required
 def add_education(student_id):
     student = Student.by_id(student_id)
 
@@ -86,12 +91,14 @@ def add_education(student_id):
     return "Not found", 404
 
 @api.post('/jobs')
+@employer_login_required
 def create_job():
     data = request.json
     job = Job(**data)
     return save_model(job)
 
 @api.get('/jobs')
+@login_required
 def get_jobs():
     query = {}
 
@@ -134,6 +141,7 @@ def get_jobs():
     return ujson.dumps(result)
 
 @api.post('/jobs/<job_id>/apply/<student_id>')
+@student_login_required
 def apply(job_id, student_id):
     data = request.json
     application = Application(
