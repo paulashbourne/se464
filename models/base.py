@@ -42,11 +42,19 @@ class BaseDocument(Document):
             return None
 
     @classmethod
+    def cast_value(cls, value):
+        try:
+            value = ObjectId(value)
+        except: pass
+        return value
+
+    @classmethod
     def by_id(cls, id):
-        return cls.find_one({'_id' : id})
+        return cls.find_one({'_id' : ObjectId(id)})
 
     @classmethod
     def by_ids(cls, ids):
+        ids = map(lambda id: ObjectId(id), ids)
         return cls.find({'_id' : {'$in' : ids}})
 
     @classmethod

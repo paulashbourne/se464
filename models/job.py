@@ -25,14 +25,18 @@ class Job(BaseDocument):
     state       = f.StringField(required = True, default = State.APPS_AVAILABLE)
 
     def to_dict(self):
-        employer = Employer.by_id(self.employer_id)
-        return {
-            'job_id': str(self.id),
-            'company_name': employer.company_name,
-            'employer_id': str(self.employer_id),
-            'position': self.position,
-            'description': self.description,
-            'location': self.location,
-            'openings': self.openings,
-            'applications': map(lambda app: app.to_dict(), Application.objects(job_id=self.id))
+        _dict = {
+            'job_id'       : str(self.id),
+            'employer_id'  : str(self.employer_id),
+            'position'     : self.position,
+            'description'  : self.description,
+            'location'     : self.location,
+            'openings'     : self.openings,
+            'applications' : map(lambda app: app.to_dict(), Application.objects(job_id=self.id))
         }
+        employer = Employer.by_id(self.employer_id)
+        if employer:
+            _dict.update({
+                'company_name' : employer.company_name
+            })
+        return update
