@@ -20,23 +20,23 @@ class Application(BaseDocument):
 
     def to_dict(self):
         return {
-            job_id     : str(self.job_id),
-            student_id : str(self.student_id),
-            state      : self.state
+            'job_id'     : str(self.job_id),
+            'student_id' : str(self.student_id),
+            'state'      : self.state
         }
     
     # To dict specifically for students
     def to_dict_student(self):
         _dict = self.to_dict()
-        _dict.extend({
-            'student_ranking' : student_ranking
+        _dict.update({
+            'student_ranking' : self.student_ranking
         })
         return _dict
     
     # To dict specifically for students
     def to_dict_employer(self):
         _dict = self.to_dict()
-        _dict.extend({
-            'employer_ranking' : 'student_ranking'
+        _dict.update({
+            'employer_ranking' : self.student_ranking
         })
         return _dict

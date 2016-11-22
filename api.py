@@ -1,5 +1,5 @@
 from core.flaskwrap import Blueprint
-from flask import request
+from flask import request, g
 from models.application import Application
 from models.employer import Employer
 from models.student import Student
@@ -128,8 +128,17 @@ def get_jobs():
     job_ids = map(lambda job: job.id, jobs)
 
     # Get student applications for those jobs
-    apps = Application.find({'job_id' : {'$in' : job_ids}})
-    apps = map(lambda app: app.to_dict(), apps)
+    app_query = {
+        'job_id' : {'$in' : job_ids}
+    }
+    # If I'm a student, only return my apps
+    if g.student:
+        app_query['student_id'] = g.user.id
+    apps = Application.find(app_query)
+    if g.student:
+        apps = map(lambda app: app.to_dict_student(), apps)
+    else:
+        apps = map(lambda app: app.to_dict_employer(), apps)
     apps_by_job_id = dict(zip(map(lambda app: app['job_id'], apps), apps))
 
     # Assemble results as dicts
