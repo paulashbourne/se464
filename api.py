@@ -166,7 +166,8 @@ def submit_rankings(data, ranking_type):
         return "Bad Request", 400
 
     rankings = data['rankings']
-    rankings_vals = rankings.values().sort()
+    rankings_vals = sorted(map(lambda v: int(v), rankings.values()))
+    print rankings_vals
     if len(rankings) > 1:
         increasing = all(x<y for x, y in zip(rankings_vals, rankings_vals[1:]))
         if not increasing or rankings_vals[0] != 1:
