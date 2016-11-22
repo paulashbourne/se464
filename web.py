@@ -60,6 +60,24 @@ def student_resume(student_id):
     return render_template('student_resume.html',
             student_info=student_info, student_id=student_id)
 
+@web.get('/employer/<employer_id>/rankings')
+@employer_login_required
+def employer_rankings(employer_id):
+    rankings_array = []
+    jobs = Job.objects(employer_id=ObjectId(employer_id))
+    for job in jobs:
+        applications = map(lambda a: a.to_dict(), Application.objects(job_id=job.id))
+        job_dict = job.to_dict()
+        job_dict['applications'] = applications
+        rankings_array.append(job_dict)
+
+    print rankings_array
+
+    return render_template('employer_rankings.html',
+        employer_id=employer_id,
+        rankings_array=rankings_array
+    )
+
 @web.get('/employer/<employer_id>/new_job')
 @employer_login_required
 def new_job_posting(employer_id):
@@ -72,6 +90,9 @@ def employer_profile(employer_id):
     employer_info = map(lambda e: e.to_dict(), Employer.objects(id=employer_id))
 
     jobs = map(lambda job: job.to_dict(), Job.objects(employer_id=employer_id))
+
+    print employer_info
+    print jobs
 
     return render_template('employer_profile.html',
             employer_id=employer_id, employer_info=employer_info, jobs=jobs)
