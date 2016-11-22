@@ -16,7 +16,11 @@
               {% endif %}
             {% endfor %}
           </select>
-          <label>{{app.student_name}}</label>
+          {% if app.state == "MATCHED" %}
+            <label>{{app.student_name}} - MATCHED</label>
+          {% else %}
+            <label>{{app.student_name}}</label>
+          {% endif %}
         </div>
         {% endfor %}
         <button class="btn btn-primary" type="submit">
