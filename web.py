@@ -9,6 +9,7 @@ from auth import student_login_required, employer_login_required
 import bcrypt
 from mongoengine import DoesNotExist
 from mongoengine.fields import ObjectId
+from auth import student_login_required, employer_login_required, login_required
 
 web = Blueprint('web', __name__)
 

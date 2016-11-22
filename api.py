@@ -9,6 +9,7 @@ from models.job import Job
 import ujson
 from bson import ObjectId
 import mongoengine as me
+from auth import student_login_required, employer_login_required, login_required
 
 api = Blueprint('api', __name__)
 
@@ -67,7 +68,7 @@ def add_experience(student_id):
     exp_data = request.form.to_dict()
 
     experience = Experience(**exp_data)
-    students = Student.objects(id=student_id)
+    students = Student.objects(id = student_id)
     for student in students:
         student.experience.append(experience)
         print student.experience
@@ -82,7 +83,7 @@ def add_education(student_id):
 
     edu = request.form.to_dict()
     education = Education(**edu)
-    students = Student.objects(id=student_id)
+    students = Student.objects(id = student_id)
     for student in students:
         student.education.append(education)
         print student.education

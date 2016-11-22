@@ -43,7 +43,7 @@ def employer_login_required(f):
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not g.employer and not g.student:
+        if not g.user:
             # Default redirect to student login
             return redirect(url_for('web.student_login', next=request.url))
         return f(*args, **kwargs)
