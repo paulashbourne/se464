@@ -1,6 +1,7 @@
 from mongoengine import fields as f
 from .base import EmbeddedDocument
 
+# A student's job experience
 class Experience(EmbeddedDocument):
     title      = f.StringField(required = True)
     company    = f.StringField(required = True)

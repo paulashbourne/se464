@@ -1,5 +1,9 @@
 import flask
 
+# A wrapper around a flask blueprint
+# get, post, patch, and delete all wrap
+# the route function, and apply the methods option
+# corresponding to the function
 class Blueprint(flask.Blueprint):
 
     def get(self, *args, **kwargs):

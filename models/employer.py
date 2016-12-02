@@ -2,6 +2,7 @@ from mongoengine import fields as f
 from .base import BaseDocument
 from models.user import User
 
+# Employer document (inherits from User)
 class Employer(User):
     meta = {
         'allow_inheritance' : False,

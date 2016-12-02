@@ -1,3 +1,5 @@
+# Seeds the database with some test data
+
 from datetime import datetime
 from base import Script
 from models.application import Application

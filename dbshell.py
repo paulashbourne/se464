@@ -1,6 +1,10 @@
 from scripts.base import Script
 from models import *
 
+# Development tool
+# Command-line interface for interacting with the application
+# Loads an App object
+# Imports all models into the current namespace
 class DBShell(Script):
 
     description = "Database Shell"

@@ -2,6 +2,7 @@ from mongoengine import fields as f
 from .base import BaseDocument
 from models.student import Student
 
+# A student application to a job
 class Application(BaseDocument):
     meta = {
         'allow_inheritance' : False,

@@ -1,3 +1,5 @@
+# Contains HTTP handlers for frontend endpoints
+
 from flask import abort, g, render_template, request, session, url_for, redirect
 from core.flaskwrap import Blueprint
 from models import Experience

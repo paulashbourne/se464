@@ -1,6 +1,7 @@
 from mongoengine import fields as f
 from .base import EmbeddedDocument
 
+# EmbeddedDocument - A student's education
 class Education(EmbeddedDocument):
     meta = {
         'allow_inheritance' : False,

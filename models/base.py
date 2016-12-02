@@ -1,16 +1,20 @@
 from mongoengine import Document, EmbeddedDocument
 from bson import ObjectId
 
+# A wrapper around mongoengine's Document class to provide additional
+# functionality for easier queries
 class BaseDocument(Document):
     meta = {
         'allow_inheritance': True,
         'abstract': True
     }
 
+    # Proxies to constructor
     @classmethod
     def create(cls, **kwargs):
         return cls(**kwargs)
 
+    # Finds entities in the database
     # query  - json query
     # limit  - integer
     # offset - integer
@@ -33,6 +37,7 @@ class BaseDocument(Document):
             queryset = queryset.order_by(*sorts)
         return list(queryset)
 
+    # Similar to find_one, but search is limited to a single result
     @classmethod
     def find_one(cls, query):
         result = cls.find(query, limit=1)
@@ -41,6 +46,7 @@ class BaseDocument(Document):
         else:
             return None
 
+    # Attempts to cast a variable to different types before querying
     @classmethod
     def cast_value(cls, value):
         try:
@@ -48,28 +54,34 @@ class BaseDocument(Document):
         except: pass
         return value
 
+    # Find a single document by id
     @classmethod
     def by_id(cls, id):
         return cls.find_one({'_id' : ObjectId(id)})
 
+    # Find a list of documents by a of ids
     @classmethod
     def by_ids(cls, ids):
         ids = map(lambda id: ObjectId(id), ids)
         return cls.find({'_id' : {'$in' : ids}})
 
+    # Same as above, but return a dict {document.id : document}
     @classmethod
     def by_ids_dict(cls, ids):
         return dict([(c.id, c) for c in cls.by_ids(ids)])
-
-    @classmethod
-    def dict_include(cls):
-        return []
 
     def set(self, **kwargs):
         for key, value in kwargs.iteritems():
             setattr(self, key, value)
         self.save()
 
+    # Specify fields to be included in the default to_dict function
+    @classmethod
+    def dict_include(cls):
+        return []
+
+    # Converts a document to a dict
+    #
     # _seen is used to store list of objects which this
     # method is called on in the recursion tree.
     # This is to prevent circular recursion over relationships.

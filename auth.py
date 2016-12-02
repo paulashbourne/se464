@@ -3,6 +3,7 @@ from functools import wraps
 from random import randint
 from models import Employer, Student
 
+# Executed before every incoming HTTP request
 def before_request_handler():
     if 'employer_id' in session:
         employers = Employer.objects(id=session['employer_id'])

@@ -1,3 +1,5 @@
+# Script to match students with jobs
+
 import models as m
 from base import Script  
 from collections import defaultdict

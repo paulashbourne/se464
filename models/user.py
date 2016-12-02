@@ -2,6 +2,7 @@ from mongoengine import fields as f
 from .base import BaseDocument
 import bcrypt
 
+# Base abstract user class
 class User(BaseDocument):
     meta = {
         'abstract': True

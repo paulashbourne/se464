@@ -1,3 +1,5 @@
+# Contains handlers for API Endpoints
+
 from core.flaskwrap import Blueprint
 from flask import request, redirect, url_for, g
 from models.application import Application
@@ -14,6 +16,8 @@ import operator
 
 api = Blueprint('api', __name__)
 
+# Attempts to save a model, catching errors if they occur and throwing an
+# appropriate HTTP error
 def save_model(model):
     try:
         model.save()
@@ -23,6 +27,7 @@ def save_model(model):
     except me.NotUniqueError:
         return "Not unique", 409
 
+# Helper function: convert a list of models to a list of dicts
 def models_to_dict(models):
     return map(lambda m: m.to_dict(), models)
 
@@ -72,7 +77,6 @@ def add_experience(student_id):
     students = Student.objects(id = student_id)
     for student in students:
         student.experience.append(experience)
-        print student.experience
         return save_model(student)
 
     return "Not found", 404
@@ -87,7 +91,6 @@ def add_education(student_id):
     students = Student.objects(id = student_id)
     for student in students:
         student.education.append(education)
-        print student.education
         return save_model(student)
 
     return "Not found", 404
@@ -103,43 +106,48 @@ def create_job():
 @login_required
 def get_jobs():
     query = {}
-
     request_data = request.args.to_dict()
-    print request_data
+
+    # Search by id
     if 'employer_id' in request_data:
         query['employer_id'] = ObjectId(request.args.get('employer_id'))
 
+    # Search by location
     if 'company_name' in request_data:
         company_name = request_data.get('company_name')
-        print company_name
-        for company in Employer.find({'company_name': company_name}):
-            print company
-            query['employer_id'] = company.id
-            break
+        employer = Employer.find_one({'company_name' : company_name})
+        if employer:
+            query['employer_id'] = employer.id
         else:
             query['company_name'] = '-1'
 
+    # Search by location
     if 'location' in request_data:
         query['location'] = request_data.get('location')
 
+    # Execute query
     jobs = Job.find(query)
-    if jobs is None:
-        # TODO: throw error
-        pass
+
     job_ids = map(lambda job: job.id, jobs)
 
     # Get student applications for those jobs
     app_query = {
         'job_id' : {'$in' : job_ids}
     }
+
     # If I'm a student, only return my apps
     if g.student:
         app_query['student_id'] = g.user.id
+
+    # Query for applications to those jobs
     apps = Application.find(app_query)
+
+    # Convert to dictionary based on either student or employer contex5
     if g.student:
         apps = map(lambda app: app.to_dict_student(), apps)
     else:
         apps = map(lambda app: app.to_dict_employer(), apps)
+
     apps_by_job_id = dict(zip(map(lambda app: app['job_id'], apps), apps))
 
     # Assemble results as dicts
@@ -161,19 +169,19 @@ def apply(job_id, student_id):
     )
     return save_model(application)
 
+# Helper function
 def submit_rankings(data, ranking_type):
     if 'rankings' not in data:
         return "Bad Request", 400
 
     rankings = data['rankings']
     rankings_vals = sorted(map(lambda v: int(v), rankings.values()))
-    print rankings_vals
+
+    # Validate rankings - monotonically increasing integers from 1 to n
     if len(rankings) > 1:
         increasing = all(x<y for x, y in zip(rankings_vals, rankings_vals[1:]))
         if not increasing or rankings_vals[0] != 1:
             return "Invalid rankings", 409
-
-    print rankings
 
     for app_id in rankings:
         rank = rankings.get(app_id)

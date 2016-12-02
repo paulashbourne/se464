@@ -1,5 +1,3 @@
-Make Jobmine Great Again!
-
 # Getting set up
 
 Make sure you have mongo installed and running

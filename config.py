@@ -1,5 +1,7 @@
 import os
 
+# Base configuration
+# Default values for all options
 class BaseConfig(object):
     # General
     DEBUG       = False
@@ -33,6 +35,7 @@ class ProductionConfig(BaseConfig):
     DB_NAME = 'WaterlooActuallyWorks_production'
     DB_HOST = os.environ.get('MONGODB_URI')
 
+# Get configuration object associated with given app environment
 def get_config(env):
     from app import Environment
 

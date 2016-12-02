@@ -3,6 +3,7 @@ from .base import BaseDocument
 from models import Employer
 from models import Application
 
+# A job posting
 class Job(BaseDocument):
     meta = {
         'allow_inheritance' : False,

@@ -4,6 +4,7 @@ from models.experience import Experience
 from models.education import Education
 from models.user import User
 
+# A student (inherits from User)
 class Student(User):
     meta = {
         'allow_inheritance' : False,
