@@ -142,7 +142,7 @@ def get_jobs():
     # Query for applications to those jobs
     apps = Application.find(app_query)
 
-    # Convert to dictionary based on either student or employer contex5
+    # Convert to dictionary based on either student or employer context
     if g.student:
         apps = map(lambda app: app.to_dict_student(), apps)
     else:
